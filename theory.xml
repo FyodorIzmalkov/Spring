@@ -75,6 +75,102 @@ public class InitHelloWorld implements BeanPostProcessor {
 
 первая функция выполнится до метода init вторая выполнится после того как метод init отработает
 
+Constructor-based DI is accomplished when the container invokes a class constructor with a number of arguments, each representing a dependency on the other class.
+    
+    <bean id="textEditor" class="TextEditor">
+        <constructor-arg ref="spellChecker"></constructor-arg>
+    </bean>
+
+    <bean id="spellChecker" class="SpellChecker"></bean>
+
+There may be an ambiguity while passing arguments to the constructor, in case there are more than one parameters. 
+To resolve this ambiguity, the order in which the constructor arguments are defined in a bean definition is the order in which those arguments are supplied to the appropriate constructor. 
+Consider the following class −
+public class Foo {
+   public Foo(Bar bar, Baz baz) {
+      // ...
+   }
+}
+The following configuration works fine −
+<beans>
+   <bean id = "foo" class = "x.y.Foo">
+      <constructor-arg ref = "bar"/>
+      <constructor-arg ref = "baz"/>
+   </bean>
+
+   <bean id = "bar" class = "x.y.Bar"/>
+   <bean id = "baz" class = "x.y.Baz"/>
+</beans>
+
+Let us check one more case where we pass different types to the constructor. Consider the following class −
+public class Foo {
+   public Foo(int year, String name) {
+      // ...
+   }
+}
+The container can also use type matching with simple types, if you explicitly specify the type of the constructor argument using the type attribute. For example −
+<beans>
+
+   <bean id = "exampleBean" class = "examples.ExampleBean">
+      <constructor-arg type = "int" value = "2001"/>
+      <constructor-arg type = "java.lang.String" value = "Zara"/>
+   </bean>
+
+</beans>
+
+Finally, the best way to pass constructor arguments, use the index attribute to specify explicitly the index of constructor arguments. Here, the index is 0 based. For example −
+
+<beans>
+
+   <bean id = "exampleBean" class = "examples.ExampleBean">
+      <constructor-arg index = "0" value = "2001"/>
+      <constructor-arg index = "1" value = "Zara"/>
+   </bean>
+
+</beans>
+
+A final note, in case you are passing a reference to an object, you need to use ref attribute of <constructor-arg> 
+tag and if you are passing a value directly then you should use value attribute as shown above.
+
+Setter-based DI is accomplished by the container calling setter methods on your beans after invoking a no-argument constructor or no-argument static factory method to instantiate your bean.
+   // a setter method to inject the dependency.
+    public void setSpellChecker(SpellChecker spellChecker) {
+        System.out.println("Inside setSpellChecker." );
+        this.spellChecker = spellChecker;
+    }
+    Here you need to check the naming convention of the setter methods. To set a variable spellChecker we are using setSpellChecker() method which is very similar to Java POJO classes.
+
+    <bean id="textEditor" class="TextEditor">
+        <property name="spellChecker" ref="spellChecker"></property>
+    </bean>
+
+    <bean id="spellChecker" class="SpellChecker"></bean>
+
+    If you have many setter methods, then it is convenient to use p-namespace in the XML configuration file. Let us check the difference −
+
+    <bean id = "john-classic" class = "com.example.Person">
+      <property name = "name" value = "John Doe"/>
+      <property name = "spouse" ref = "jane"/>
+   </bean>
+
+   <bean name = "jane" class = "com.example.Person">
+      <property name = "name" value = "John Doe"/>
+   </bean>
+
+   The above XML configuration can be re-written in a cleaner way using p-namespace as follows −
+
+    <bean id = "john-classic" class = "com.example.Person"
+      p:name = "John Doe"
+      p:spouse-ref = "jane"/>
+   </bean>
+
+   <bean name =" jane" class = "com.example.Person"
+      p:name = "John Doe"/>
+   </bean>
+
+   Here, you should note the difference in specifying primitive values and object references with p-namespace. 
+   The -ref part indicates that this is not a straight value but rather a reference to another bean.
+
 A bean definition can contain a lot of configuration information, including constructor arguments, property values, and container-specific 
 information such as initialization method, static factory method name, and so on.
 
@@ -627,3 +723,333 @@ public class AppConfig {
 }
 
 Event Handling in Spring
+The ApplicationContext publishes certain types of events when loading the beans. 
+For example, a ContextStartedEvent is published when the context is started and ContextStoppedEvent is published when the context is stopped.
+
+Event handling in the ApplicationContext is provided through the ApplicationEvent class and ApplicationListener interface.
+Hence, if a bean implements the ApplicationListener, then every time an ApplicationEvent gets published to the ApplicationContext, that bean is notified.
+
+Spring Built-in Events & Description
+1	ContextRefreshedEvent
+This event is published when the ApplicationContext is either initialized or refreshed. This can also be raised using the refresh() method on the ConfigurableApplicationContext interface.
+
+2	ContextStartedEvent
+This event is published when the ApplicationContext is started using the start() method on the ConfigurableApplicationContext interface.
+You can poll your database or you can restart any stopped application after receiving this event.
+
+3	ContextStoppedEvent
+This event is published when the ApplicationContext is stopped using the stop() method on the ConfigurableApplicationContext interface.
+You can do required housekeep work after receiving this event.
+
+4	ContextClosedEvent
+This event is published when the ApplicationContext is closed using the close() method on the ConfigurableApplicationContext interface. 
+A closed context reaches its end of life; it cannot be refreshed or restarted.
+
+5	RequestHandledEvent
+This is a web-specific event telling all beans that an HTTP request has been serviced.
+
+Spring's event handling is single-threaded so if an event is published, until and unless all the receivers get the message, the processes are blocked and the flow will not continue. 
+Hence, care should be taken when designing your application if the event handling is to be used.
+
+Listening to Context Events
+To listen to a context event, a bean should implement the ApplicationListener interface which has just one method onApplicationEvent().
+
+public class CStartEventHandler implements ApplicationListener<ContextStartedEvent> {
+    public void onApplicationEvent(ContextStartedEvent event){
+        System.out.println("ContextStartedEvent Received");
+    }
+}
+
+    public static void main(String[] args) {
+        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+
+        // Let us raise a start event.
+        context.start();
+
+        HelloWorld obj = (HelloWorld) context.getBean("helloWorld");
+        obj.getMessage();
+
+        // Let us raise a stop event.
+        context.stop();
+    }
+
+    One of the key components of Spring Framework is the Aspect oriented programming (AOP) framework.
+Aspect-Oriented Programming entails breaking down program logic into distinct parts called so-called concerns.
+The functions that span multiple points of an application are called cross-cutting concerns and these cross-cutting 
+concerns are conceptually separate from the application's business logic. There are various common good examples of aspects 
+like logging, auditing, declarative transactions, security, caching, etc.
+
+The key unit of modularity in OOP is the class, whereas in AOP the unit of modularity is the aspect. 
+Dependency Injection helps you decouple your application objects from each other and AOP helps you 
+decouple cross-cutting concerns from the objects that they affect. AOP is like triggers in programming 
+languages such as Perl, .NET, Java, and others.
+
+Spring AOP module provides interceptors to intercept an application. For example, when a method is executed, you can add extra functionality before or after the method execution.
+
+AOP Terminologies
+Before we start working with AOP, let us become familiar with the AOP concepts and terminology. These terms are not specific to Spring, rather they are related to AOP.
+
+1	Aspect
+This is a module which has a set of APIs providing cross-cutting requirements. 
+For example, a logging module would be called AOP aspect for logging. An application can have any number of aspects depending on the requirement.
+
+2	Join point
+This represents a point in your application where you can plug-in the AOP aspect. 
+You can also say, it is the actual place in the application where an action will be taken using Spring AOP framework.
+
+3	Advice
+This is the actual action to be taken either before or after the method execution. 
+This is an actual piece of code that is invoked during the program execution by Spring AOP framework.
+
+4	Pointcut
+This is a set of one or more join points where an advice should be executed. 
+You can specify pointcuts using expressions or patterns as we will see in our AOP examples.
+
+5	Introduction
+An introduction allows you to add new methods or attributes to the existing classes.
+
+6	Target object
+The object being advised by one or more aspects. 
+This object will always be a proxied object, also referred to as the advised object.
+
+7	Weaving
+Weaving is the process of linking aspects with other application types or objects to create an advised object. 
+This can be done at compile time, load time, or at runtime.
+
+Types of Advice
+Spring aspects can work with five kinds of advice mentioned as follows −
+
+1	before
+Run advice before the a method execution.
+
+2	after
+Run advice after the method execution, regardless of its outcome.
+
+3	after-returning
+Run advice after the a method execution only if method completes successfully.
+
+4	after-throwing
+Run advice after the a method execution only if method exits by throwing an exception.
+
+5	around
+Run advice before and after the advised method is invoked.
+
+Custom Aspects Implementation
+Spring supports the @AspectJ annotation style approach and the schema-based approach to implement custom aspects. 
+
+To use the AOP namespace tags described in this section, you need to import the springAOP schema as described −
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+   xmlns:aop = "http://www.springframework.org/schema/aop"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+   http://www.springframework.org/schema/aop 
+   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd ">
+
+   <!-- bean definition & AOP specific configuration -->
+
+</beans>
+
+Declaring an aspect
+An aspect is declared using the <aop:aspect> element, and the backing bean is referenced using the ref attribute as follows −
+<aop:config>
+   <aop:aspect id = "myAspect" ref = "aBean">
+      ...
+   </aop:aspect>
+</aop:config>
+
+<bean id = "aBean" class = "...">
+   ...
+</bean>
+
+A pointcut helps in determining the join points (ie methods) of interest to be executed with different advices. 
+While working with XML Schema-based configuration, pointcut will be defined as follows −
+<aop:config>
+   <aop:aspect id = "myAspect" ref = "aBean">
+      <aop:pointcut id = "businessService" 
+         expression = "execution(*com.xyz.myapp.service.*.*(..))"/>
+         ...
+   </aop:aspect>
+</aop:config>
+
+The following example defines a pointcut named 'businessService' that will match the execution of getName() method available in the Student class under the package com.tutorialspoint −
+<aop:config>
+   <aop:aspect id = "myAspect" ref = "aBean">
+      <aop:pointcut id = "businessService" 
+         expression = "execution(*com.tutorialspoint.Student.getName(..))"/>
+         ...
+   </aop:aspect>
+</aop:config>
+
+You can declare any of the five advices inside an <aop:aspect> using the <aop:{ADVICE NAME}> element as given below −
+<aop:config>
+   <aop:aspect id = "myAspect" ref = "aBean">
+      <aop:pointcut id = "businessService"
+         expression = "execution(* com.xyz.myapp.service.*.*(..))"/>
+
+      <!-- a before advice definition -->
+      <aop:before pointcut-ref = "businessService" method = "doRequiredTask"/>
+
+      <!-- an after advice definition -->
+      <aop:after pointcut-ref = "businessService" method = "doRequiredTask"/>
+
+      <!-- an after-returning advice definition -->
+      <!--The doRequiredTask method must have parameter named retVal -->
+      <aop:after-returning pointcut-ref = "businessService"
+         returning = "retVal" method = "doRequiredTask"/>
+
+      <!-- an after-throwing advice definition -->
+      <!--The doRequiredTask method must have parameter named ex -->
+      <aop:after-throwing pointcut-ref = "businessService"
+         throwing = "ex" method = "doRequiredTask"/>
+
+      <!-- an around advice definition -->
+      <aop:around pointcut-ref = "businessService" method = "doRequiredTask"/>
+      ...
+   </aop:aspect>
+</aop:config>
+
+<bean id = "aBean" class = "...">
+  ...
+</bean>
+
+@AspectJ refers to a style of declaring aspects as regular Java classes annotated with Java 5 annotations. 
+The @AspectJ support is enabled by including the following element inside your XML Schema-based configuration file.
+<aop:aspectj-autoproxy/>
+
+Declaring an aspect
+Aspects classes are like any other normal bean and may have methods and fields just like any other class, except that they will be annotated with @Aspect as follows −
+@Aspect
+public class AspectModule {
+}
+They will be configured in XML like any other bean as follows −
+<bean id = "myAspect" class = "org.xyz.AspectModule">
+   <!-- configure properties of aspect here as normal -->
+</bean>
+
+A pointcut helps in determining the join points (ie methods) of interest to be executed with different advices. While working with @AspectJ-based configuration, pointcut declaration has two parts −
+A pointcut expression that determines exactly which method executions we are interested in.
+A pointcut signature comprising a name and any number of parameters. 
+The actual body of the method is irrelevant and in fact should be empty.
+
+The following example defines a pointcut named 'businessService' that will match the execution of every method available in the classes under the package com.xyz.myapp.service −
+@Pointcut("execution(* com.xyz.myapp.service.*.*(..))") // expression 
+private void businessService() {}  // signature
+
+The following example defines a pointcut named 'getname' that will match the execution of getName() method available in the Student class under the package com.tutorialspoint −
+@Pointcut("execution(* com.tutorialspoint.Student.getName(..))") 
+private void getname() {}
+
+Declaring advices
+You can declare any of the five advices using @{ADVICE-NAME} annotations as given in the code snippet. This assumes that you already have defined a pointcut signature method businessService() −
+@Before("businessService()")
+public void doBeforeTask(){
+   ...
+}
+
+@After("businessService()")
+public void doAfterTask(){
+   ...
+}
+
+@AfterReturning(pointcut = "businessService()", returning = "retVal")
+public void doAfterReturnningTask(Object retVal) {
+   // you can intercept retVal here.
+   ...
+}
+
+@AfterThrowing(pointcut = "businessService()", throwing = "ex")
+public void doAfterThrowingTask(Exception ex) {
+  // you can intercept thrown exception here.
+  ...
+}
+
+@Around("businessService()")
+public void doAroundTask(){
+   ...
+}
+
+You can define a pointcut inline for any of the advices. Following is an example to define inline pointcut for before advice −
+@Before("execution(* com.xyz.myapp.service.*.*(..))")
+public doBeforeTask(){
+   ...
+}
+
+While working with the database using plain old JDBC, it becomes cumbersome to write unnecessary code to handle exceptions, opening and closing database connections, etc. 
+However, Spring JDBC Framework takes care of all the low-level details starting from opening the connection, 
+prepare and execute the SQL statement, process exceptions, handle transactions and finally close the connection.
+
+So what you have to do is just define the connection parameters and specify the SQL statement to be executed and do the required work for each iteration while fetching data from the database.
+
+Spring JDBC provides several approaches and correspondingly different classes to interface with the database. 
+I'm going to take classic and the most popular approach which makes use of JdbcTemplate class of the framework. 
+This is the central framework class that manages all the database communication and exception handling.
+
+JdbcTemplate Class
+The JDBC Template class executes SQL queries, updates statements, stores procedure calls, performs iteration over ResultSets, and extracts returned parameter values. 
+It also catches JDBC exceptions and translates them to the generic, more informative, exception hierarchy defined in the org.springframework.dao package.
+
+Instances of the JdbcTemplate class are threadsafe once configured. 
+So you can configure a single instance of a JdbcTemplate and then safely inject this shared reference into multiple DAOs.
+
+A common practice when using the JDBC Template class is to configure a DataSource in your Spring configuration file, 
+and then dependency-inject that shared DataSource bean into your DAO classes, and the JdbcTemplate is created in the setter for the DataSource.
+
+Now we need to supply a DataSource to the JDBC Template so it can configure itself to get database access.
+ You can configure the DataSource in the XML file with a piece of code as shown in the following code snippet −
+ <bean id = "dataSource" 
+   class = "org.springframework.jdbc.datasource.DriverManagerDataSource">
+   <property name = "driverClassName" value = "com.mysql.jdbc.Driver"/>
+   <property name = "url" value = "jdbc:mysql://localhost:3306/TEST"/>
+   <property name = "username" value = "root"/>
+   <property name = "password" value = "password"/>
+</bean>
+
+Data Access Object (DAO)
+DAO stands for Data Access Object, which is commonly used for database interaction. 
+DAOs exist to provide a means to read and write data to the database and they should expose this functionality 
+through an interface by which the rest of the application will access them.
+
+The DAO support in Spring makes it easy to work with data access technologies like JDBC, Hibernate, JPA, or JDO in a consistent way.
+
+Querying for an integer
+
+String SQL = "select count(*) from Student";
+int rowCount = jdbcTemplateObject.queryForInt( SQL );
+
+Querying for a long
+
+String SQL = "select count(*) from Student";
+long rowCount = jdbcTemplateObject.queryForLong( SQL );
+
+A simple query using a bind variable
+
+String SQL = "select age from Student where id = ?";
+int age = jdbcTemplateObject.queryForInt(SQL, new Object[]{10});
+
+Querying for a String
+
+String SQL = "select name from Student where id = ?";
+String name = jdbcTemplateObject.queryForObject(SQL, new Object[]{10}, String.class);
+
+Querying and returning an object
+
+String SQL = "select * from Student where id = ?";
+Student student = jdbcTemplateObject.queryForObject(
+   SQL, new Object[]{10}, new StudentMapper());
+
+public class StudentMapper implements RowMapper<Student> {
+   public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
+      Student student = new Student();
+      student.setID(rs.getInt("id"));
+      student.setName(rs.getString("name"));
+      student.setAge(rs.getInt("age"));
+      
+      return student;
+   }
+}
+
+A database transaction is a sequence of actions that are treated as a single unit of work. These actions should either complete entirely or take no effect at all. 
+Transaction management is an important part of RDBMS-oriented enterprise application to ensure data integrity and consistency. 
+The concept of transactions can be described with the following four key properties described as ACID −
