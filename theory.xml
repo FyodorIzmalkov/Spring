@@ -134,3 +134,131 @@ While defining a Bean Definition Template, you should not specify the class attr
 
 The parent bean cannot be instantiated on its own because it is incomplete, and it is also explicitly marked as abstract. 
 When a definition is abstract like this, it is usable only as a pure template bean definition that serves as a parent definition for child definitions.
+
+Every Java-based application has a few objects that work together to present what the end-user sees as a working application. 
+When writing a complex Java application, application classes should be as independent as possible of other Java classes to increase the possibility 
+to reuse these classes and to test them independently of other classes while unit testing. Dependency Injection (or sometime called wiring) helps in gluing these 
+classes together and at the same time keeping them independent.
+
+In an inversion of control scenario, we would instead do something like this −
+public class TextEditor {
+   private SpellChecker spellChecker;
+   
+   public TextEditor(SpellChecker spellChecker) {
+      this.spellChecker = spellChecker;
+   }
+}
+Here, the TextEditor should not worry about SpellChecker implementation. 
+The SpellChecker will be implemented independently and will be provided to the TextEditor at the time of TextEditor instantiation. 
+This entire procedure is controlled by the Spring Framework.
+
+Here, we have removed total control from the TextEditor and kept it somewhere else (i.e. XML configuration file) and 
+the dependency (i.e. class SpellChecker) is being injected into the class TextEditor through a Class Constructor. 
+Thus the flow of control has been "inverted" by Dependency Injection (DI) because you have effectively delegated dependances to some external system.
+
+The second method of injecting dependency is through Setter Methods of the TextEditor class where we will create a SpellChecker instance. 
+This instance will be used to call setter methods to initialize TextEditor's properties.
+
+	Dependency Injection Type  Description
+1	Constructor-based dependency injection
+Constructor-based DI is accomplished when the container invokes a class constructor with a number of arguments, each representing a dependency on the other class.
+
+2	Setter-based dependency injection
+Setter-based DI is accomplished by the container calling setter methods on your beans after invoking a no-argument constructor or no-argument static factory method to instantiate your bean.
+
+You can mix both, Constructor-based and Setter-based DI but it is a good rule of thumb to use constructor arguments for mandatory dependencies and setters for optional dependencies.
+
+The code is cleaner with the DI principle and decoupling is more effective when objects are provided with their dependencies. 
+The object does not look up its dependencies and does not know the location or class of the dependencies, rather everything is taken care by the Spring Framework.
+
+As you know Java inner classes are defined within the scope of other classes, similarly, inner beans are beans that are defined within the scope of another bean. 
+Thus, a <bean/> element inside the <property/> or <constructor-arg/> elements is called inner bean and it is shown below.
+
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <bean id = "outerBean" class = "...">
+      <property name = "target">
+         <bean id = "innerBean" class = "..."/>
+      </property>
+   </bean>
+
+</beans>
+
+Element & Description
+1	
+<list>
+
+This helps in wiring ie injecting a list of values, allowing duplicates.
+
+2	
+<set>
+
+This helps in wiring a set of values but without any duplicates.
+
+3	
+<map>
+
+This can be used to inject a collection of name-value pairs where name and value can be of any type.
+
+4	
+<props>
+
+This can be used to inject a collection of name-value pairs where the name and value are both Strings.
+
+You will come across two situations (a) Passing direct values of the collection and (b) Passing a reference of a bean as one of the collection elements.
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Definition for javaCollection -->
+    <bean id="javaCollection" class="JavaCollection">
+        <!-- results in a setAddressList(java.util.List) call -->
+        <property name="addressList">
+            <list>
+                <value>INDIA</value>
+                <value>Pakistan</value>
+                <value>USA</value>
+                <value>USA</value>
+            </list>
+        </property>
+
+        <!-- results in a setAddressSet(java.util.Set) call -->
+        <property name="addressSet">
+            <set>
+                <value>INDIA</value>
+                <value>Pakistan</value>
+                <value>USA</value>
+                <value>USA</value>
+            </set>
+        </property>
+
+        <!-- results in a setAddressMap(java.util.Map) call -->
+        <property name = "addressMap">
+            <map>
+                <entry key = "1" value = "INDIA"/>
+                <entry key = "2" value = "Pakistan"/>
+                <entry key = "3" value = "USA"/>
+                <entry key = "4" value = "USA"/>
+            </map>
+        </property>
+
+        <!-- results in a setAddressProp(java.util.Properties) call -->
+        <property name = "addressProp">
+            <props>
+                <prop key = "one">INDIA</prop>
+                <prop key = "one">INDIA</prop>
+                <prop key = "two">Pakistan</prop>
+                <prop key = "three">USA</prop>
+                <prop key = "four">USA</prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>
