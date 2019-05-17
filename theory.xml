@@ -28,3 +28,109 @@ AbstractApplicationContext context = new ClassPathXmlApplicationContext("Beans.x
 Following is the content of the MainApp.java file. 
 Here you need to register a shutdown hook registerShutdownHook() method that is declared on the AbstractApplicationContext class. 
 This will ensure a graceful shutdown and call the relevant destroy methods.
+
+If you have too many beans having initialization and/or destroy methods with the same name, you don't need to declare init-method and destroy-method on each individual bean. 
+Instead, the framework provides the flexibility to configure such situation using default-init-method and default-destroy-method attributes on the <beans> element as follows −
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+   default-init-method = "init" 
+   default-destroy-method = "destroy">
+
+   <bean id = "..." class = "...">
+      <!-- collaborators and configuration for this bean go here -->
+   </bean>
+   
+</beans>
+
+The BeanPostProcessor interface defines callback methods that you can implement to provide your own instantiation logic, dependency-resolution logic, etc. 
+You can also implement some custom logic after the Spring container finishes instantiating, configuring, and initializing a bean by plugging in one or more BeanPostProcessor implementations.
+
+You can configure multiple BeanPostProcessor interfaces and you can control the order in which these BeanPostProcessor interfaces execute 
+by setting the order property provided the BeanPostProcessor implements the Ordered interface.
+
+The BeanPostProcessors operate on bean (or object) instances, which means that the Spring IoC container instantiates a bean instance and then BeanPostProcessor interfaces do their work.
+
+An ApplicationContext automatically detects any beans that are defined with the implementation of the 
+BeanPostProcessor interface and registers these beans as postprocessors, to be then called appropriately by the container upon bean creation.
+
+Мы можем применять что то к нашим бинам до и после инициализации бина
+
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
+
+public class InitHelloWorld implements BeanPostProcessor {
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException{
+        System.out.println("Before initialization: " + beanName);
+        return bean;
+    }
+
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException{
+        System.out.println("After initialization: " + beanName);
+        return bean;
+    }
+}
+
+первая функция выполнится до метода init вторая выполнится после того как метод init отработает
+
+A bean definition can contain a lot of configuration information, including constructor arguments, property values, and container-specific 
+information such as initialization method, static factory method name, and so on.
+
+A child bean definition inherits configuration data from a parent definition. The child definition can override some values, or add others, as needed.
+
+Spring Bean definition inheritance has nothing to do with Java class inheritance but the inheritance concept is same.
+You can define a parent bean definition as a template and other child beans can inherit the required configuration from the parent bean.
+
+When you use XML-based configuration metadata, you indicate a child bean definition by using the parent attribute, specifying the parent bean as the value of this attribute.
+
+Following is the configuration file Beans.xml where we defined "helloWorld" bean which has two properties message1 and message2. 
+Next "helloIndia" bean has been defined as a child of "helloWorld" bean by using parent attribute. 
+The child bean inherits message2 property as is, and overrides message1 property and introduces one more property message3.
+
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <bean id = "helloWorld" class = "com.tutorialspoint.HelloWorld">
+      <property name = "message1" value = "Hello World!"/>
+      <property name = "message2" value = "Hello Second World!"/>
+   </bean>
+
+   <bean id ="helloIndia" class = "com.tutorialspoint.HelloIndia" parent = "helloWorld">
+      <property name = "message1" value = "Hello India!"/>
+      <property name = "message3" value = "Namaste India!"/>
+   </bean>
+</beans>
+
+Бин хеллоИндия наследует от бина хеллоВорлд сообщение 2, и оверрайдит сообщение 1, также создает свое сообщение 3
+
+You can create a Bean definition template, which can be used by other child bean definitions without putting much effort. 
+While defining a Bean Definition Template, you should not specify the class attribute and should specify abstract attribute and should specify the abstract attribute with a value of true
+
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <bean id = "beanTeamplate" abstract = "true">
+      <property name = "message1" value = "Hello World!"/>
+      <property name = "message2" value = "Hello Second World!"/>
+      <property name = "message3" value = "Namaste India!"/>
+   </bean>
+
+   <bean id = "helloIndia" class = "com.tutorialspoint.HelloIndia" parent = "beanTeamplate">
+      <property name = "message1" value = "Hello India!"/>
+      <property name = "message3" value = "Namaste India!"/>
+   </bean>
+   
+</beans>
+
+The parent bean cannot be instantiated on its own because it is incomplete, and it is also explicitly marked as abstract. 
+When a definition is abstract like this, it is usable only as a pure template bean definition that serves as a parent definition for child definitions.
