@@ -1,0 +1,30 @@
+Singleton
+
+    <bean id="helloWorld" class="HelloWorld" scope="singleton">
+        <property name="message" value="Hello world!" />
+    </bean>
+
+The prototype scope
+If the scope is set to prototype, the Spring IoC container creates a new bean instance of the object every time a request 
+for that specific bean is made. As a rule, use the prototype scope for all state-full beans and the singleton scope for stateless beans.
+
+    <bean id="helloWorld" class="HelloWorld" scope="prototype">
+        <property name="message" value="Hello world!" />
+    </bean>
+
+The life cycle of a Spring bean is easy to understand. When a bean is instantiated, 
+it may be required to perform some initialization to get it into a usable state. 
+Similarly, when the bean is no longer required and is removed from the container, some cleanup may be required.
+
+To define setup and teardown for a bean, we simply declare the <bean> with initmethod and/or destroy-method parameters. 
+The init-method attribute specifies a method that is to be called on the bean immediately upon instantiation. 
+Similarly, destroymethod specifies a method that is called just before a bean is removed from the container.
+
+AbstractApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
+      HelloWorld obj = (HelloWorld) context.getBean("helloWorld");
+      obj.getMessage();
+      context.registerShutdownHook();
+
+Following is the content of the MainApp.java file. 
+Here you need to register a shutdown hook registerShutdownHook() method that is declared on the AbstractApplicationContext class. 
+This will ensure a graceful shutdown and call the relevant destroy methods.
