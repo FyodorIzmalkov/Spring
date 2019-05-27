@@ -1,0 +1,29 @@
+Spring’s ApplicationContext object represents an instance of Spring container. 
+Spring provides a few built-in implementations of ApplicationContext interface, 
+like ClassPathXmlApplicationContext, FileSystemXmlApplicationContext, XmlWebApplicationContext, XmlPortletApplicationContext, and so on. 
+The choice of the ApplicationContext implementation depends on how you have defined the configuration metadata (using XML, annotations or Java code), 
+and the type of your application (standalone, web or portlet application). For instance, ClassPathXmlApplicationContext and FileSystemXmlApplicationContext 
+classes are suitable for standalone applications in which configuration metadata is supplied in XML format, XmlWebApplicationContext is suitable for web applications 
+in which the configuration metadata is supplied in XML format, AnnotationConfigWebApplicationContext is suitable for web applications in which configuration metadata 
+is supplied through Java code, and so on. 
+
+As MyBank application represents a standalone application, we can use either ClassPathXmlApplicationContext or FileSystemXmlApplicationContext class to
+create an instance of Spring container. You should note that the ClassPathXmlApplicationContext class 
+loads an application context XML file from the specified classpath location, and the FileSystemXmlApplicationContext 
+class loads an application context XML file from the specified location on the filesystem. 
+
+The application objects defined via <bean> elements are created and managed by the Spring container. 
+You can access instances of these application objects by calling one of the getBean methods of the ApplicationContext interface. 
+
+To use ‘programming to interfaces’ design approach in your Spring application, you need to ensure the following things: 
+- the <bean> elements in the configuration metadata specify the concrete classes of the dependency 
+- the dependent bean classes refer to the dependency interface instead of the concrete class of the dependency
+
+
+The following bean definition for the FixedDepositDaoFactory class instructs Spring container to invoke FixedDepositDaoFactory’s 
+getFixedDepositDao method to obtain an instance of FixedDepositJdbcDao class: 
+<bean id="dao" 
+    class="sample.spring.FixedDepositDaoFactory"
+    factory-method="getFixedDepositDao">
+    <constructor-arg index=”0” value="jdbc"/>
+</bean> 
