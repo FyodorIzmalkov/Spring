@@ -27,3 +27,129 @@ getFixedDepositDao method to obtain an instance of FixedDepositJdbcDao class:
     factory-method="getFixedDepositDao">
     <constructor-arg index=”0” value="jdbc"/>
 </bean> 
+
+It is important to note that calling ApplicationContext’s getBean method to obtain dao bean 
+(refer example listing 2-5) will result in invocation of the FixedDepositDaoFactory’s getFixedDepositDao factory method. 
+This means that calling getBean("dao") returns the FixedDepositDao instance created by the getFixedDepositDao factory method,
+ and not an instance of FixedDepositDaoFactory class. 
+
+ Injecting object instances created by static factory method
+
+<bean id="service" class="sample.spring.chapter02.bankapp.FixedDepositServiceImpl">
+    <property name="fixedDepositDao" ref="dao" />
+</bean>
+ 
+ <bean 
+ id="dao" 
+ class="sample.spring.chapter02.basicapp.FixedDepositDaoFactory"
+ factory-method="getFixedDepositDao">
+ <constructor-arg index=”0” value="jdbc"/> 
+ </bean>
+
+ Configuration to invoke FixedDepositDaoFactory’s getFixedDepositDao method
+ <bean id = "daoFactory" class = "sample.spring.chapter02.basicapp.FixedDepositDaoFactory" />
+
+ <bean id = "dao" 
+ factory-bean = "daoFactory"
+  factory-method = "getFixedDepositDao"> 
+  <constructor-arg index = "0" value = "jdbc" /> 
+</bean>
+
+<bean id="service" class="sample.spring.chapter02.bankapp.FixedDepositServiceImpl"><property name="fixedDepositDao" ref="dao" /> </bean>
+
+In setter-based DI, <property> elements are used to specify bean dependencies. The <property> element is also used to pass configuration information (if any) required by the bean. 
+
+We can set elements of type String as follows:
+
+<bean id="emailMessageSender" class="EmailMessageSender">
+    <property name="host" value="smtp.gmail.com"/>
+    <property name="username" value="myusername"/>
+    <property name="password" value="mypassword"/>
+</bean> 
+
+Configuration to invoke FixedDepositDaoFactory’s getFixedDepositDao method and set databaseInfo property of returned FixedDepositJdbcDao instance 
+
+<bean id="daoFactory" class="FixedDepositDaoFactory" />
+
+<bean id="dao" factory-bean="daoFactory" factory-method="getFixedDepositDao">
+    <constructor-arg index="0" value="jdbc"/>
+    <property name="databaseInfo" ref="databaseInfo"/>
+</bean>
+
+<bean id="databaseInfo" class="DatabaseInfo" /> 
+
+Using constructor-arg:
+
+<bean id="personalBankingService" class="PersonalBankingService">
+    <constructor-arg index="0" ref="jmsMessageSender" />
+    <constructor-arg index="1" ref="emailMessageSender" />
+    <constructor-arg index="2" ref="webServiceInvoker" />
+</bean>
+    
+<bean id="jmsMessageSender" class="JmsMessageSender">
+.....
+</bean>
+
+<bean id="webServiceInvoker" class="WebServiceInvoker" />
+.....
+</bean>
+
+In the above example listing, <constructor-arg> elements specify details of the constructor arguments passed to the PersonalBankingService instance. 
+The index attribute specifies the index of the constructor argument. If the index attribute value is 0, 
+it means that the <constructor-arg> element corresponds to the first constructor argument, and if the index attribute value is 1, 
+it means that the <constructor-arg> element corresponds to the second constructor argument, and so on.
+
+If a bean class requires both constructor- and setter-based DI mechanisms, you can use a combination of <constructor-arg> and <property> elements to inject dependencies. 
+
+<bean id="dataSource" class="PersonalBankingService">
+    <constructor-arg index="0" ref="jmsMessageSender" />
+    <constructor-arg index="1" ref="emailMessageSender" />
+    <property name="webServiceInvoker" ref="webServiceInvoker" />
+</bean> 
+
+You may want to specify the scope of a bean to control whether a shared instance of the bean is created (singleton scope), 
+or a new bean instance is created every time the bean is requested (prototype scope) from the Spring container. 
+The scope of a bean is defined by the scope attribute of the <bean> element. If the scope attribute is not specified, it means that the bean is a singleton-scoped bean.
+
+If the scope attribute is not specified or the value of scope attribute is singleton, it means that the bean is singleton-scoped. 
+
+In the above example listing, JUnit’s @BeforeClass annotation specifies that the init method is invoked before any of the test methods (that is, methods annotated with JUnit’s @Test annotation) in the class.
+This means that @BeforeClass annotated method is invoked only once, and @Test annotated methods are executed only after the execution of @BeforeClass annotated method.
+
+The scope of a singleton-scoped bean instance is limited to the Spring container instance.
+
+Lazily initializing a singleton-scoped bean
+
+<bean id="lazyBean" class="example.LazyBean" lazy-init="true"/> 
+
+The <bean> element’s lazy-init attribute specifies whether the bean instance is created lazily or eagerly. If the value is true (as in case of the bean definition shown above),
+ the bean instance is initialized by the Spring container when it receives the request for the bean for the first time. 
+
+ A prototype-scoped bean is different from a singleton-scoped bean in the sense that the Spring container always returns a new instance of a prototype-scoped bean. 
+ Another distinctive feature of prototype-scoped beans is that they are always lazily-initialized. 
+
+ <bean id="FixedDepositDetails" class="sample.spring.chapter02.bankapp.domain.FixedDepositDetails" scope="prototype" /> 
+
+ If a bean doesn’t maintain any conversational state (that is, it is stateless in nature), it should be defined as a singleton-scoped bean. 
+ If a bean maintains conversational state, it should be defined as a prototype-scoped bean. 
+
+ The following example listing shows that the personalBankingDao and fixedDepositDao bean definitions make use of bean definition inheritance: 
+
+ <bean id="databaseOperations"class="sample.spring.chapter03.bankapp.utils.DatabaseOperations" />
+
+ <bean id="daoTemplate" abstract="true">
+    <property name="databaseOperations" ref="databaseOperations" />
+</bean>
+
+<bean id="FixedDepositDao" parent="daoTemplate" class="sample.spring.chapter03.bankapp.dao.FixedDepositDaoImpl" />
+<bean id="personalBankingDao" parent="daoTemplate" class="sample.spring.chapter03.bankapp.dao.PersonalBankingDaoImpl" /> 
+
+It is important to note that if you don’t specify the class attribute, you must define the parent bean definition as 
+abstract so that Spring container doesn’t attempt to create a bean instance corresponding to it.
+
+A child bean definition inherits the following configuration information from the parent bean definition: 
+properties – specified via <property> elements
+constructor arguments – specified via <constructor-arg> elements 
+method overrides
+initialization and destroy methods
+factory methods – specified via factory-method attribute of <bean> element

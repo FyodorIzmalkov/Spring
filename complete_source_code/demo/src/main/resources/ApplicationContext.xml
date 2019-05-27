@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="helloWorld" class="com.example.demo.HelloWorld">
+        <property name="hello" value="Hello world!"/>
+    </bean>
+
+    <bean id="helloTemplate" abstract="true">
+        <property name="helloWorld" ref="helloWorld"></property>
+    </bean>
+
+    <bean id="helloIndia" parent="helloTemplate" class="com.example.demo.HelloIndia">
+        <property name="intro" value="HELLO FROM INDIA!"/>
+    </bean>
+
+    <bean id="helloRussia" parent="helloTemplate" class="com.example.demo.HelloRussia">
+        <property name="intro" value="HELLO FROM RUSSIA!"/>
+    </bean>
+</beans>
