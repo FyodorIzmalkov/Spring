@@ -22,6 +22,16 @@ public class DemoApplication {
         Five five = (Five) applicationContext.getBean("five");
         five.printAll();
 
+        ConstructorArg constructorArg = (ConstructorArg) applicationContext.getBean("constructorArg");
+        constructorArg.printAll();
+
+        System.out.println();
+        Pnamespace pnamespace = (Pnamespace) applicationContext.getBean("pnamespace");
+        pnamespace.printAll();
+
+        Cnamespace cnamespace = (Cnamespace) applicationContext.getBean("cnamespace");
+        cnamespace.printAll();
+
     }
 
 }

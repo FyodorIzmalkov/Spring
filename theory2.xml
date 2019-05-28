@@ -170,3 +170,86 @@ To inherit a factory and a factory method:
     <constructor-arg index="0" value="fixedDepositController" />
     <property name="fixedDepositService" ref="fixedDepositService" />
 </bean>
+
+If a constructor argument is of simple Java type (like int, String, and so on), the <constructor-arg> 
+element’s value attribute is used to specify the value of the constructor argument. 
+If a constructor argument is a reference to a bean, you specify the name of the bean using the <constructor-arg> element’s ref attribute. 
+
+If the <constructor-arg> element’s index attribute is not specified, Spring
+container locates the constructor to be invoked by matching the types referenced by the <constructor-arg> 
+elements with the argument types specified in the bean class’s constructor(s). 
+
+We can specify a constructor-arg type:
+<constructor-arg type="sample.spring.chapter03.bankapp.controller.BBean" ref="bBean"/>
+
+Primitive types:
+
+<constructor-arg type="boolean" value="true" />
+<constructor-arg type="int" value="5" />
+<constructor-arg type="long" value="200" />
+
+Also we can use arg name:
+
+<constructor-arg name="active" value="true" />
+<constructor-arg name="numberOfRetrialAttempts" value="5" />
+<constructor-arg name="timeout" value="200" />
+
+Also we can use @ConstructorProperties
+@ConstructorProperties({"webServiceUrl","active","timeout"});
+
+If the constructor of the class corresponding to the parent bean definition is annotated with @ConstructorProperties annotation, 
+the bean class corresponding to the child bean definition must also be annotated with @ConstructorProperties annotation. 
+
+Map containing bean name as key and bean reference as value
+
+<constructor-arg name="myExample">
+<map>
+    <entry>
+        <key>
+            <idref bean="sampleBean" />
+        </key>
+        <ref bean="sampleBean" />
+    </entry>
+</map>
+</constructor-arg>
+
+You can add a null value to collections of type Set and List using <null> element. The following example listing shows how to add a null value to a Set type constructor argument using <null> element: 
+<set><value>Element 1</value><value>Element 2</value><null /></set>
+In the above example listing, setWithNullElement constructor argument contains 3 elements: Element 1, Element 2 and null. 
+
+Arrays:
+
+<array><value>1</value><value>2</value></array>
+
+To register property editors with the Spring container, you need to do the following
+Create a class that implements Spring’s PropertyEditorRegistrar interface. This class is responsible for registering property editors with the Spring container. 
+Configure the PropertyEditorRegistrar implementation as a Spring bean in the application context XML file. 
+Configure Spring’s CustomEditorConfigurer special bean in the application context XML file, and provide it with reference to the PropertyEditorRegistrar implementation
+
+To make bean definitions less verbose in application context XML files, Spring provides p and c namespaces to specify values for bean properties and constructor arguments, respectively.
+ The p and c namespaces are alternatives to using <property> and <constructor-arg> elements, respectively. 
+
+ To use p-namespace to set bean properties, specify bean properties as attributes of the <bean> element, and specify each bean property to be in the p-namespace. 
+
+ <bean id="pnamespace" class="com.example.demo.Pnamespace" p:first="FIRST" p:second="SECOND"/>
+
+ If a bean property is a reference to another bean, it is specified using the following syntax: 
+ p:<property-name>-ref="<bean-reference>"
+
+ To use c-namespace to supply values for constructor arguments, specify constructor arguments as attributes of the <bean> element, and specify each constructor argument to be in the c-namespace.
+ xmlns:c="http://www.springframework.org/schema/c"
+
+ <bean id="cnamespace" class="com.example.demo.Cnamespace" c:one="one" c:two="two" c:three="three" />
+
+ It ll work only with debug flag (javac -g) , otherway use the indexes: c:_0="" c:_1="" etc.
+
+ The <list> element of Spring’s util schema is used for creating objects of type java.util.List, as shown here: 
+ xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+    <util:list id="listType" list-class="java.util.ArrayList">
+    <value>A simple String value in list</value>
+    <value>Another simple String value in list</value>
+    </util:list> 
+
+An alternative to using util schema’s <list> element is Spring’s ListFactoryBean – a factory that is used for creating instances of java.util.List and making them available as Spring beans. 

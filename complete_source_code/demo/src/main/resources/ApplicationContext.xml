@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
     <bean id="helloWorld" class="com.example.demo.HelloWorld">
         <property name="hello" value="Hello world!"/>
@@ -29,4 +32,14 @@
         <property name="four" value="four " />
         <property name="five" value="five" />
     </bean>
+
+    <bean id="constructorArg" class="com.example.demo.ConstructorArg">
+        <constructor-arg type="int" value="10"/>
+        <constructor-arg type="long" value="99999"/>
+        <constructor-arg name="bool" value="true"/>
+    </bean>
+
+    <bean id="pnamespace" class="com.example.demo.Pnamespace" p:first="FIRST" p:second="SECOND" p:helloRussia-ref="helloRussia"/>
+
+    <bean id="cnamespace" class="com.example.demo.Cnamespace" c:one="one" c:two="two" c:three="three" />
 </beans>
