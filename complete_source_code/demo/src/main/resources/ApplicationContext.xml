@@ -18,4 +18,15 @@
     <bean id="helloRussia" parent="helloTemplate" class="com.example.demo.HelloRussia">
         <property name="intro" value="HELLO FROM RUSSIA!"/>
     </bean>
+
+    <bean id="three" class="com.example.demo.Three">
+        <property name="one" value="one "/>
+        <property name="two" value="two "/>
+        <property name="three" value="three "/>
+    </bean>
+
+    <bean id="five" class="com.example.demo.Five" parent="three">
+        <property name="four" value="four " />
+        <property name="five" value="five" />
+    </bean>
 </beans>

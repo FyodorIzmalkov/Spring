@@ -19,6 +19,9 @@ public class DemoApplication {
         helloRussia.sayHello();
         helloIndia.sayHello();
 
+        Five five = (Five) applicationContext.getBean("five");
+        five.printAll();
+
     }
 
 }

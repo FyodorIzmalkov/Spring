@@ -153,3 +153,20 @@ constructor arguments – specified via <constructor-arg> elements
 method overrides
 initialization and destroy methods
 factory methods – specified via factory-method attribute of <bean> element
+
+When inheriting bean, you could extend or implement what you have been inhereting or make new methods (setters) and data fields for new class.
+
+To inherit a factory and a factory method:
+
+<bean id="controllerFactory"class="sample.spring.chapter03.bankapp.controller.ControllerFactory" />
+
+<bean id="controllerTemplate" 
+    factory-bean="controllerFactory" 
+    factory-method="getController" 
+    abstract="true">
+</bean>
+
+<bean id="fixedDepositController" parent="controllerTemplate">
+    <constructor-arg index="0" value="fixedDepositController" />
+    <property name="fixedDepositService" ref="fixedDepositService" />
+</bean>
