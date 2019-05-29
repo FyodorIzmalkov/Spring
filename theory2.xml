@@ -289,3 +289,130 @@ getBean method is invoked to obtain the prototype-scoped bean.
 It is important to note that even if setter-based DI was used to inject the prototype-scoped customerRequestDetails dependency of the customerRequestService bean, 
 the Spring container would have called the setter method only once during the lifetime of the customerRequestService bean. This means that irrespective of whether 
 setter- or constructor-based DI is used, a singleton bean is created and configured only once during it’s lifetime. 
+
+if a prototype-scoped bean X is dependent on another prototype-scoped bean Y, 
+Spring container will create a new instance of X and Y each time you request bean X from the Spring container.
+
+Obtaining new instances of prototype beans inside singleton beans 
+
+Spring container creates instance of a singleton-scoped bean only once; therefore, 
+the singleton-scoped bean holds reference to the same prototype-scoped bean instance during its lifetime.
+
+A singleton-scoped bean’s methods can retrieve a new instance of their prototype-scoped dependency from the Spring container using any one of the following approaches: 
+- make the singleton-scoped bean’s class implement Spring’s ApplicationContextAware interface 
+- use the <lookup-method> element of Spring’s beans schema 
+- use the <replaced-method> element of Spring’s beans schema 
+
+Spring’s ApplicationContextAware interface is implemented by beans that require access to the ApplicationContext instance in which they are running. 
+ApplicationContextAware interface defines a single method, setApplicationContext, which provides the implementing beans with an instance of the ApplicationContext object. 
+ApplicationContextAware interface is a lifecycle interface, which means that the
+Spring container calls the beans implementing the ApplicationContextAware interface at appropriate times during their lifetime.
+
+If a bean class defines a bean lookup method whose return type represents a bean, the <lookup-method> element instructs the Spring container to provide implementation for this method.
+The <lookup-method> element’s bean attribute specifies the name of the bean to be looked-up and returned by the method implementation, and the name attribute specifies the name of the method whose implementation is to be provided by the Spring container.
+The use of <lookup-method> element to instruct the Spring container to provide implementation for a bean lookup method is referred to as a ‘Method Injection techinique’ because the <lookup-method> element injects a bean lookup method implementation into the bean class. 
+
+<bean id="customerRequestService"class="sample.spring.chapter04.bankapp.service.CustomerRequestServiceImpl">
+    <constructor-arg name="customerRequestDao" ref="customerRequestDao" />
+    <lookup-method bean="customerRequestDetails" name="getCustomerRequestDetails"/>
+</bean>
+
+<bean id="customerRequestDetails"class="sample.spring.chapter04.bankapp.domain.CustomerRequestDetails"scope="prototype" /> 
+
+The value of <lookup-method> element’s bean attribute is customerRequestDetails, which means that the implementation of getCustomerRequestDetails method retrieves a bean with id (or name) as customerRequestDetails from the Spring container and returns it to the calling method.
+As the implementation of the bean lookup method is provided by the Spring container, some restrictions apply to the signature of the bean lookup methods. 
+For instance, the bean lookup method must be defined as public or protected, and it must not accept any arguments.
+As the bean class containing the bean lookup method is subclassed at runtime by the Spring container to provide the implementation for the bean lookup method, 
+the bean class and the bean lookup method must not be defined as final. 
+
+Instead of using <lookup-method> element, you can consider using <replaced-method> element of Spring’s beans schema to perform method injection. 
+The <replaced-method> element allows you to replace any arbitrary method in a bean class with a different implementation.
+The overriding method is provided by the class that implements Spring’s MethodReplacer interface.
+public class MyMethodReplacer implements MethodReplacer, ApplicationContextAware {
+public Object reimplement(Object obj, Method method, Object[] args)
+throws Throwable {
+return applicationContext.getBean((String) args[0]);}
+
+@Override
+public void setApplicationContext(ApplicationContext applicationContext)throws BeansException 
+{this.applicationContext = applicationContext;} }
+
+The reimplement method accepts the following arguments: 
+·        Object obj – identifies the object whose method we are overriding. In our example scenario, the obj object is the CustomerRequestServiceImpl object. 
+·        Method method – identifies the bean class’s method that is overridden by the reimplement method. In our example scenario, this is CustomerRequestServiceImpl’s getMyBean method. 
+·        Object[] args – identifies arguments passed to the method that we are overriding. In our example scenario, args represents the arguments passed to the CustomerRequestServiceImpl’s getMyBean method. In example listing 4-20, args[0] in the reimplement method refers the bean name argument passed to the CustomerRequestServiceImpl’s getMyBean method.
+
+<bean id="customerRequestService" class="sample.spring.chapter04.bankapp.service.CustomerRequestServiceImpl">
+    <constructor-arg name="customerRequestDao" ref="customerRequestDao" />
+    <replaced-method name="getMyBean" replacer="methodReplacer" />
+</bean>
+
+<bean id="methodReplacer"class="sample.spring.chapter04.bankapp.service.MyMethodReplacer" /> 
+
+It is important to note that you can use <replaced-method> element to replace an abstract or concrete method of a bean class with a different method implementation. 
+For instance, we could have defined getMyBean method as an abstract method and used the <replaced-method> element in the same way as described in this section. 
+
+To uniquely identify the bean method to be overridden, the <replaced-method> element uses <arg-type> sub-elements to specify method argument types.
+<bean id="mybean" class="MyBean">
+    <replaced-method name="perform " replacer=".....">
+        <arg-type>java.lang.String</arg-type>
+        <arg-type>java.lang.String</arg-type>
+    </replaced-method>
+</bean> 
+
+Let’s now look at Spring’s autowiring feature that saves you the effort of specifying bean dependencies in the application context XML file.
+Autowiring dependencies 
+In Spring, you have the option to either explicitly specify bean dependencies using <property> and <constructor-arg> elements or let Spring automatically resolve bean dependencies.
+ The process in which dependencies are automatically resolved by Spring is referred to as ‘autowiring’. 
+
+ The <bean> element’s autowire attribute specifies how a bean’s dependencies are automatically resolved by Spring. The autowire attribute can take any one of the following values: default, byName, byType, constructor and no.
+ You should note that the <bean> element’s autowire attribute is not inherited by child bean definitions. 
+
+BY TYPE
+ If you specify autowire attribute’s value as byType, Spring autowires bean properties based on their type. 
+ For instance, if a bean A defines a property of type X, Spring finds a bean of type X in the ApplicationContext and injects it into bean A.
+
+ <bean id="customerRegistrationService" class="sample.spring.chapter04.bankapp.service.CustomerRegistrationServiceImpl" scope="prototype" autowire="byType" />
+ 
+ <bean id="customerRegistrationDetails" class="sample.spring.chapter04.bankapp.domain.CustomerRegistrationDetails" scope="prototype" />
+ 
+ <bean id="customerRegistrationDao" class="sample.spring.chapter04.bankapp.dao.CustomerRegistrationDaoImpl" /> 
+
+ It may happen that Spring doesn’t find any bean registered with the ApplicationContext whose type matches the property type. 
+ In such cases, no exception is thrown and the bean property is not set.
+
+ If Spring finds multiple beans in the ApplicationContext that match the property type, an exception is thrown.
+
+ If you specify autowire attribute’s value as constructor, Spring autowires bean class’s constructor arguments based on their type. 
+ For instance, if bean A’s constructor accepts arguments of type X and Y, Spring finds beans of types X and Y in the ApplicationContext 
+ and injects them as arguments to bean A’s constructor.
+
+ <bean id="customerRequestService" class="sample.spring.chapter04.bankapp.service.CustomerRequestServiceImpl" autowire="constructor"></bean>
+ 
+ <bean id="customerRequestDetails" class="sample.spring.chapter04.bankapp.domain.CustomerRequestDetails" scope="prototype" />
+ 
+ <bean id="customerRequestDao" class="sample.spring.chapter04.bankapp.dao.CustomerRequestDaoImpl" />
+
+ If you specify autowire attribute’s value as byName, Spring autowires bean properties based on their names. For instance, if a bean A defines a property named x, Spring finds a bean named x in the ApplicationContext and injects it into bean A.
+
+ If you specify autowire attribute’s value as default or no, autowiring feature is disabled for the bean. 
+ As Spring’s default behavior is to use no autowiring for beans, specifying autowire attribute’s value as default means no autowiring will be performed for the bean.
+  You can explicitly specify that a bean must not use Spring’s autowiring feature by specifying autowire attribute’s value as no. 
+  <bean id="customerRegistrationService_" class="sample.spring.chapter04.bankapp.service.CustomerRegistrationServiceImpl" scope="prototype" autowire="no" /> 
+
+  The default behavior of the Spring container is to make beans available for autowiring. You can make a bean unavailable to other beans for autowiring purposes by setting autowire-candidate attribute’s value to false. 
+  <bean id="accountStatementDao" class="sample.spring.chapter04.bankapp.dao.AccountStatementDaoImpl" autowire-candidate="false" /> 
+
+  In the above example listing, default-autowire-candidates value is set to *Dao, which means that beans whose names end with Dao 
+  (like customerRequestDao and customerRegistrationDao beans) will be available for autowiring purposes. 
+  If a bean name doesn’t match the pattern specified by the default-autowire-candidates attribute (like customerRequestDetails bean),
+   you can still make it available for autowiring purposes by setting the autowire-candidate attribute of the corresponding <bean> element to true. 
+
+   <beans default-autowire-candidates="*Dao" >..... </beans>
+
+   We saw that autowiring feature saves the effort to explicitly specify bean dependencies using <property> and <constructor-arg> elements. The downsides of using autowiring feature are: 
+   ·        You can’t use autowiring to set properties or constructor arguments that are of simple Java types (like int, long, boolean, String, Date, and so on). You can autowire arrays, typed collections and maps if the autowire attribute’s value is set to byType or constructor. 
+   ·        As bean dependencies are automatically resolved by Spring, it results in hiding the overall structure of the application. If you use <property> and
+<constructor-arg> elements to specify bean dependencies, it results in explicitly documenting the overall structure of the application.
+ You can easily understand and maintain an application in which bean dependencies are explicitly documented. 
+For this reason, it is not recommended to use autowiring in large applications.
