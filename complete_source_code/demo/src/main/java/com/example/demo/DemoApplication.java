@@ -4,6 +4,8 @@ package com.example.demo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 public class DemoApplication {
 
     public static void main(String[] args) {
@@ -32,6 +34,9 @@ public class DemoApplication {
         Cnamespace cnamespace = (Cnamespace) applicationContext.getBean("cnamespace");
         cnamespace.printAll();
 
+        InnerBeanUsage innerBeanUsage = (InnerBeanUsage) applicationContext.getBean("innerBeanUsage");
+        innerBeanUsage.printAll();
+        System.out.println();
     }
 
 }

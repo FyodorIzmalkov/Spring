@@ -42,4 +42,11 @@
     <bean id="pnamespace" class="com.example.demo.Pnamespace" p:first="FIRST" p:second="SECOND" p:helloRussia-ref="helloRussia"/>
 
     <bean id="cnamespace" class="com.example.demo.Cnamespace" c:one="one" c:two="two" c:three="three" />
+    
+    <bean id="innerBeanUsage" class="com.example.demo.InnerBeanUsage">
+        <property name="innerBean">
+            <bean class="com.example.demo.InnerBean"/>
+        </property>
+    </bean>
+
 </beans>

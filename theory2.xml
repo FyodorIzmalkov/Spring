@@ -253,3 +253,39 @@ To make bean definitions less verbose in application context XML files, Spring p
     </util:list> 
 
 An alternative to using util schema’s <list> element is Spring’s ListFactoryBean – a factory that is used for creating instances of java.util.List and making them available as Spring beans. 
+
+
+If a dependency of a bean is not shared by multiple beans, you can consider defining the dependency as an inner bean.
+An inner bean is defined inside a <property> or <constructor-arg> element by using the <bean> element of Spring’s beans schema.
+
+<bean id="service"class="sample.spring.chapter04.bankapp.service.FixedDepositServiceImpl">
+<property name="fixedDepositDao">
+<bean class="sample.spring.chapter04.bankapp.dao.FixedDepositDaoImpl" />
+</property>
+</bean> 
+
+In the above example listing, the bean definition for the FixedDepositDaoImpl class is inside the <property> element of service bean.
+An inner bean is always prototype-scoped; therefore, if the <bean> element corresponding to an inner bean definition specifies the scope attribute, then it is ignored by the Spring container.
+It is important to note that an inner bean is anonymous in nature, and it’s not accessible to other beans (except the bean that contains the inner bean definition) in the Spring container. 
+As in case of normal bean definition, you can use <property>, <constructor-arg>, and so on, elements inside the <bean> element of the inner bean definition. 
+
+The order in which beans are created is also decided based on the inter-dependencies of beans.
+
+Implicit dependency problem:
+
+- change order in xml file
+- use <bean> element’s depends-on attribute to explicitly specify
+
+<bean id="service" class="sample.spring.chapter04.bankapp.service.FixedDepositServiceImpl" depends-on="eventSenderSelectorService">.....</bean>
+
+If a bean has multiple implicit dependencies, you can specify ids or names of all those dependencies as the value of depends-on attribute, as shown here: 
+<bean id="abean" ..... depends-on="bBean, cBean">
+
+It is important to note that the depends-on attribute is not inherited by child bean definitions.
+
+A singleton-scoped bean (and its singleton-scoped dependencies) is created when the ApplicationContext instance is created. And, a prototype-scoped bean (and its prototype-scoped dependencies) is created each time ApplicationContext’s 
+getBean method is invoked to obtain the prototype-scoped bean. 
+
+It is important to note that even if setter-based DI was used to inject the prototype-scoped customerRequestDetails dependency of the customerRequestService bean, 
+the Spring container would have called the setter method only once during the lifetime of the customerRequestService bean. This means that irrespective of whether 
+setter- or constructor-based DI is used, a singleton bean is created and configured only once during it’s lifetime. 
