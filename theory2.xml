@@ -433,3 +433,32 @@ You can use the default-init-method and default-destroy-method attributes of <be
 
 Instead of using init-method and destroy-method attributes of <bean> element to specify custom initialization and destruction methods, you can use Spring’s InitializingBean and DisposableBean lifecycle interfaces. 
 A bean class in Spring can set a method as an initialization method by annotating it with @PostConstruct, and set a method as a destruction method by annotating it with @PreDestroy annotation. 
+@PostConstruct and @PreDestroy annotations to identify initialization and destruction methods.
+
+@PostConstructpublic void initializeDbConnection() {logger.info("FixedDepositDaoImplís initializeDbConnection method invoked");connection = DatabaseConnection.getInstance();}
+@PreDestroypublic void releaseDbConnection() {logger.info("FixedDepositDaoImpl's releaseDbConnection method invoked");connection.releaseConnection();}
+
+To use @PostConstruct and @PreDestroy annotations in your application, you need to configure Spring’s CommonAnnotationBeanPostProcessor class in the application context XML file
+<bean
+		class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+
+BeanPostProcessor interface defines the following methods: 
+Object postProcessBeforeInitialization(Object bean, String beanName) – this method is invoked before the initialization method of a bean instance is invoked
+Object postProcessAfterInitialization(Object bean, String beanName) – this method is invoked after the initialization method of a bean instance is invoked 
+
+You configure a BeanPostProcessor implementation in the application context XML file like any other Spring bean.
+
+In a Spring application, you may want to verify that a bean instance is configured correctly before it is injected into dependent beans or accessed by other objects in the application.
+If the setter-method for a bean property is annotated with Spring’s @Required annotation, Spring’s RequiredAnnotationBeanPostProcessor (a BeanPostProcessor implementation) checks if the bean property is configured in the application context XML file. 
+If you have defined RequiredAnnotationBeanPostProcessor in the application context XML file, the RequiredAnnotationBeanPostProcessor 
+will check if you have specified a <property> element (or used p-namespace) to set the value of FixedDepositDao property. 
+If you haven’t configured the FixedDepositDao property in the bean definition for the FixedDepositServiceImpl class in 
+the application context XML file, it’ll result in an exception.
+
+RequiredAnnotationBeanPostProcessor only ensures that a bean property is configured in the bean definition. It doesn’t ensure that the configured property value is correct.
+
+DestructionAwareBeanPostProcessor  
+interact with a bean instance before it is destroyed, configure a bean that implements Spring’s DestructionAwareBeanPostProcessor interface in the application context XML file. DestructionAwareBeanPostProcessor is a sub-interface of BeanPostProcessor interface
+void postProcessBeforeDestruction(Object bean, String beanName);
+
+A BeanFactoryPostProcessor is executed after bean definitions are loaded by the Spring container, but before any bean instance is created.
