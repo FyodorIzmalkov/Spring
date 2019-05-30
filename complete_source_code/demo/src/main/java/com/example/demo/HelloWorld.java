@@ -7,6 +7,10 @@ public class HelloWorld {
         return hello;
     }
 
+    public void initializeHelloWorld(){
+        System.out.println("initializeHelloWorld() from HelloWorld bean");
+    }
+
     public void setHello(String hello) {
         this.hello = hello;
     }

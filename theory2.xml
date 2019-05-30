@@ -416,3 +416,20 @@ BY TYPE
 <constructor-arg> elements to specify bean dependencies, it results in explicitly documenting the overall structure of the application.
  You can easily understand and maintain an application in which bean dependencies are explicitly documented. 
 For this reason, it is not recommended to use autowiring in large applications.
+
+Initialize and destroy methods
+
+<bean id="myFixedDepositDao" class="sample.spring.chapter05.bankapp.dao.FixedDepositDaoImpl" init-method="initializeDbConnection" destroy-method="releaseDbConnection" /> 
+The above example listing shows that the <bean> element corresponding to the FixedDepositDaoImpl class specifies initializeDbConnection and releaseDbConnection as the values of init-method and destroy-method attributes, respectively. 
+It is important to note that the initialization and destruction methods specified by the init-method and destroy-method attributes of <bean> element must not accept any arguments, but can be defined to throw exceptions. 
+how you can make Spring gracefully destroy singleton-scoped bean instances by calling the cleanup method specified by the <bean> element’s destroy-method attribute. 
+
+Spring’s AbstractionApplicationContext class implements ApplicationContext interface and defines a registerShutdownHook method that registers a shutdown hook with the JVM. The shutdown hook is responsible for closing the ApplicationContext when the JVM is shutdown.
+In case of prototype-scoped beans, destroy-method attribute is ignored by the Spring container.
+Lifecycles of prototype- and singleton-scoped beans are same, except that the Spring container will not call the cleanup method (specified by the destroy-init attribute) of the prototype-scoped bean instance. 
+You can use the default-init-method and default-destroy-method attributes of <beans> element to specify default initialization and destruction methods
+
+<beans ..... default-init-method="initialize" default-destroy-method="release"><bean id="A" class="....." init-method="initializeService" /><bean id="B" class="....." /> </beans> 
+
+Instead of using init-method and destroy-method attributes of <bean> element to specify custom initialization and destruction methods, you can use Spring’s InitializingBean and DisposableBean lifecycle interfaces. 
+A bean class in Spring can set a method as an initialization method by annotating it with @PostConstruct, and set a method as a destruction method by annotating it with @PreDestroy annotation. 
