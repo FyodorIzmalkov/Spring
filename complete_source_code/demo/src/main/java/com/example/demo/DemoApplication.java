@@ -2,6 +2,7 @@ package com.example.demo;
 
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -39,6 +40,15 @@ public class DemoApplication {
         System.out.println();
         AutowiredUsage autowiredUsage = (AutowiredUsage) applicationContext.getBean("autowiredUsage");
         autowiredUsage.printAll(helloWorld);
+
+        System.out.println();
+        ComponentTwo componentTwo = (ComponentTwo) applicationContext.getBean("componentDva");
+        componentTwo.printAll();
+
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConfigAnnotation.class);
+        HelloWorld helloWorld2 = context.getBean(HelloWorld.class);
+        helloWorld2.setHello("Hello from AnnotationConfigACxt");
+        System.out.println(helloWorld2.getHello());
     }
 
 }

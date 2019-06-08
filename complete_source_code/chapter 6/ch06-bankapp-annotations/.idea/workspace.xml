@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="135ef5c0-15d7-4374-a7ea-37b6d1604045" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../demo/src/main/java/com/example/demo/DemoApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../demo/src/main/java/com/example/demo/DemoApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../demo/src/main/java/com/example/demo/HelloIndia.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../demo/src/main/java/com/example/demo/HelloIndia.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../demo/src/main/java/com/example/demo/HelloWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../demo/src/main/java/com/example/demo/HelloWorld.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../demo/src/main/resources/ApplicationContext.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../demo/src/main/resources/ApplicationContext.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../theory2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../theory2.xml" afterDir="false" />
-    </list>
+    <list default="true" id="135ef5c0-15d7-4374-a7ea-37b6d1604045" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/classes/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -153,7 +147,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../HelloWorld" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ch06-bankapp-jsr330" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -182,16 +176,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1560019834050</updated>
-      <workItem from="1560019836936" duration="2077000" />
+      <workItem from="1560019836936" duration="2097000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2077000" />
+    <option name="totallyTimeSpent" value="2097000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Image Layers" />
       <window_info id="Designer" />
