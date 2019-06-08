@@ -474,3 +474,64 @@ Like @Service annotation, @Component, @Repository and @Controller annotations sp
 You can
 specify the name of a Spring component without explicitly specifying the value attribute. This means that @Service(value="FixedDepositService") is same as @Service("FixedDepositService").
 If you don’t specify a name for the component, Spring assumes name of the component is same as the name of the component class.
+
+You enable classpath scanning feature of Spring by using the <component-scan> element of Spring’s context schema. 
+
+xmlns:context="http://www.springframework.org/schema/context"
+<context:component-scan base-package="sample.spring"/> 
+
+he <component-scan> element’s base-package attribute specifies comma-separated list of packages that should be searched for Spring components. 
+As the base-package attribute’s value is sample.spring, Spring components are searched inside sample.spring package and its sub-packages.
+
+Also we can use include and exclude filters:
+
+<context:component-scan base-package="sample.example"><context:include-filter type="annotation" expression="example.annotation.MyAnnotation"/><context:exclude-filter type="regex" expression=".*Details"/>   </context:component-scan> 
+The <exclude-filter> and <include-filter> elements define a type attribute that specifies the strategy used for filtering component classes, and the expression attribute specifies the corresponding filter expression.
+
+
+@Autowired - autowiring dependencies by type 
+Spring’s @Autowired annotation provides the same functionality as the Spring’s autowiring feature that we discussed in chapter 4, but @Autowired annotation offers a more cleaner and flexible approach to autowiring bean dependencies.
+
+@Autowired
+private AccountStatementDao accountStatementDao;
+
+In the above example listing, the accountStatementDao field (of type AccountStatementDao) is annotated with @Autowired annotation.
+When an instance of AccountStatementServiceImpl is created, Spring’s
+AutowiredAnnotationBeanPostProcessor (a BeanPostProcessor implementation) is responsible for autowiring accountStatementDao field.
+
+If a method is annotated with @Autowired annotation, the arguments of the method are autowired. 
+As obtainCustomerRegistrationDetails method is annotated with @Autowired annotation, its CustomerRegistrationDetails argument is autowired by type. 
+It is important to note that an @Autowired annotated method need not be public. 
+
+If a constructor is annotated with @Autowired annotation, the arguments of the constructor are autowired.
+
+When using the @Autowired annotation, exception is thrown if a bean matching the required type is not found.
+
+@Autowired’s required attribute specifies whether it is mandatory or optional to autowire dependencies. 
+If you set @Autowired’s required attribute value to false, autowiring of dependencies is considered optional.
+
+A component class can define multiple @Autowired annotated constructors with required attribute’s value set to false. In such a case, one of the constructors will be invoked by Spring to create an instance of the component class.
+@Autowired(required=false)
+
+The constructor with the largest number of satisfied dependencies is chosen.
+
+@Qualifier – autowiring dependencies by name 
+
+You can use Spring’s @Qualifier annotation along with @Autowired annotation to autowire dependencies by name. 
+The @Qualifier annotation can be used at field-level, method-parameter-level and constructor-argument-level. 
+
+@Autowired
+@Qualifier(value="myFixedDepositDao")
+private FixedDepositDao myFixedDepositDao;
+n the above example listing, myFixedDepositDao field is annotated with @Autowired and @Qualifier annotations. @Qualifier annotation’s value attribute specifies the name of the bean to be assigned to the myFixedDepositDao field. 
+
+Spring first finds autowiring candidates ‘by type’ for the fields, constructors and methods that are annotated with @Autowired annotation.
+ Then, Spring uses the bean name specified by @Qualifier annotation to locate a unique bean from the list of autowiring candidates.
+
+ @Qualifier(value="myFixedDepositDao") is same as @Qualifier("myFixedDepositDao"); you don’t need to use the value attribute to specify the name of the bean to be autowired. 
+
+ Qualifier as a method parameter:
+
+ @Autowiredpublic Sample(@Qualifier("aBean") ABean bean) { .... }
+
+ JSR 330’s @Inject and @Named annotations 

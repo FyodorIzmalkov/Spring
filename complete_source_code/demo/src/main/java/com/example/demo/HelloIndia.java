@@ -25,4 +25,8 @@ public class HelloIndia {
         System.out.println(intro);
         System.out.println();
     }
+
+    public void sayIntro(){
+        System.out.println(intro);
+    }
 }

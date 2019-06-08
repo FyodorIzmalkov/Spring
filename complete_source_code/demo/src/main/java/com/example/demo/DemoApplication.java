@@ -27,16 +27,18 @@ public class DemoApplication {
         ConstructorArg constructorArg = (ConstructorArg) applicationContext.getBean("constructorArg");
         constructorArg.printAll();
 
-        System.out.println();
-        Pnamespace pnamespace = (Pnamespace) applicationContext.getBean("pnamespace");
-        pnamespace.printAll();
-
-        Cnamespace cnamespace = (Cnamespace) applicationContext.getBean("cnamespace");
-        cnamespace.printAll();
-
         InnerBeanUsage innerBeanUsage = (InnerBeanUsage) applicationContext.getBean("innerBeanUsage");
         innerBeanUsage.printAll();
         System.out.println();
+
+        System.out.println();
+        AnnotationCall annotationCall = (AnnotationCall) applicationContext.getBean("annotationCall");
+        annotationCall.setIntro("Hi, I am AnnotationCall!");
+        annotationCall.printAll();
+
+        System.out.println();
+        AutowiredUsage autowiredUsage = (AutowiredUsage) applicationContext.getBean("autowiredUsage");
+        autowiredUsage.printAll(helloWorld);
     }
 
 }
