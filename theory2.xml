@@ -462,3 +462,15 @@ interact with a bean instance before it is destroyed, configure a bean that impl
 void postProcessBeforeDestruction(Object bean, String beanName);
 
 A BeanFactoryPostProcessor is executed after bean definitions are loaded by the Spring container, but before any bean instance is created.
+
+As FixedDepositSerivceImpl class is annotated with @Service annotation, FixedDepositServiceImpl class represents a Spring component. 
+@Service annotation accepts a value attribute that specifies the name with which the component is registered as a bean with the Spring container. 
+For instance, FixedDepositServiceImpl class is registered with Spring container as a bean with the name FixedDepositService. 
+The value attribute serves the same purpose as the <bean> element’s id attribute. 
+
+@Service(value="FixedDepositService") public class FixedDepositServiceImpl implements FixedDepositService { ..... } 
+
+Like @Service annotation, @Component, @Repository and @Controller annotations specify the name of the component via value attribute.
+You can
+specify the name of a Spring component without explicitly specifying the value attribute. This means that @Service(value="FixedDepositService") is same as @Service("FixedDepositService").
+If you don’t specify a name for the component, Spring assumes name of the component is same as the name of the component class.
