@@ -823,3 +823,46 @@ stmt = conn.prepareStatement(sql);
       
       // Let us update age of the record with ID = 102;
       int rows = stmt.executeUpdate();
+
+      Three types of parameters exist: IN, OUT, and INOUT. The PreparedStatement object only uses the IN parameter. The CallableStatement object can use all the three.
+
+Here are the definitions of each −
+
+Parameter	Description
+IN	A parameter whose value is unknown when the SQL statement is created. You bind values to IN parameters with the setXXX() methods.
+OUT	A parameter whose value is supplied by the SQL statement it returns. You retrieve values from theOUT parameters with the getXXX() methods.
+INOUT	A parameter that provides both input and output values. You bind variables with the setXXX() methods and retrieve values with the getXXX() methods.
+
+CallableStatement cstmt = null;
+try {
+   String SQL = "{call getEmpName (?, ?)}";
+   cstmt = conn.prepareCall (SQL);
+   . . .
+}
+catch (SQLException e) {
+   . . .
+}
+finally {
+   . . .
+}
+
+The following example illustrates the use of a commit and rollback object −
+
+try{
+   //Assume a valid connection object conn
+   conn.setAutoCommit(false);
+   Statement stmt = conn.createStatement();
+   
+   String SQL = "INSERT INTO Employees  " +
+                "VALUES (106, 20, 'Rita', 'Tez')";
+   stmt.executeUpdate(SQL);  
+   //Submit a malformed SQL statement that breaks
+   String SQL = "INSERTED IN Employees  " +
+                "VALUES (107, 22, 'Sita', 'Singh')";
+   stmt.executeUpdate(SQL);
+   // If there is no error.
+   conn.commit();
+}catch(SQLException se){
+   // If there is any error.
+   conn.rollback();
+}
