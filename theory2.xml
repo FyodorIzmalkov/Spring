@@ -472,7 +472,8 @@ The value attribute serves the same purpose as the <bean> element’s id attribu
 
 Like @Service annotation, @Component, @Repository and @Controller annotations specify the name of the component via value attribute.
 You can
-specify the name of a Spring component without explicitly specifying the value attribute. This means that @Service(value="FixedDepositService") is same as @Service("FixedDepositService").
+specify the name of a Spring component without explicitly specifying the value attribute. This means that @Service(value="FixedDepositService") 
+is same as @Service("FixedDepositService").
 If you don’t specify a name for the component, Spring assumes name of the component is same as the name of the component class.
 
 You enable classpath scanning feature of Spring by using the <component-scan> element of Spring’s context schema. 
@@ -490,7 +491,8 @@ The <exclude-filter> and <include-filter> elements define a type attribute that 
 
 
 @Autowired - autowiring dependencies by type 
-Spring’s @Autowired annotation provides the same functionality as the Spring’s autowiring feature that we discussed in chapter 4, but @Autowired annotation offers a more cleaner and flexible approach to autowiring bean dependencies.
+Spring’s @Autowired annotation provides the same functionality as the Spring’s autowiring feature that we discussed in chapter 4, 
+but @Autowired annotation offers a more cleaner and flexible approach to autowiring bean dependencies.
 
 @Autowired
 private AccountStatementDao accountStatementDao;
@@ -535,3 +537,111 @@ Spring first finds autowiring candidates ‘by type’ for the fields, construct
  @Autowiredpublic Sample(@Qualifier("aBean") ABean bean) { .... }
 
  JSR 330’s @Inject and @Named annotations 
+
+ @Autowired and @Inject annotations have the same semantics; they are used for autowiring dependencies by type.
+  Like @Autowired annotation, @Inject can be used at method-level, constructor-level and field-level.
+  Dependency injection of constructors is performed first, followed by fields, and then methods.
+
+  If @Named annotation is used at the type-level, it acts like Spring’s @Component annotation.
+  And, if @Named annotation is used at the method-parameter-level or constructor-argument-level, it acts like Spring’s @Qualifier annotation.
+
+  Spring supports autowiring ‘by name’ of fields and methods via JSR 250’s @Resource annotation.
+  @Resource annotation’s name attribute specifies the name of the bean to be autowired. 
+  It is important to note that you can’t use @Resource annotation for autowiring constructor arguments. 
+  when you use @Resource annotation, type of the field (or setter method argument) to be autowired is not taken into consideration by Spring. 
+  When you use Autowired and Qualifier it searches first by-type and then by-name;
+
+  You specify the scope (prototype or singleton) of a Spring component using Spring’s @Scope annotation.
+  If you want a Spring component to be prototype-scoped, you have to specify so via @Scope annotation.
+
+  The @Scope annotation accepts a value attribute that specifies the scope of the component. 
+  You can set value attribute’s value to prototype or singleton to indicate whether the component is singleton-scoped or prototype-scoped, 
+  or you can set value attribute’s value to ConfigurableBeanFactory’s SCOPE_SINGLETON (value is singleton) or SCOPE_PROTOTYPE (value is prototype) constants. 
+
+  By default, singleton-scoped Spring components are eagerly initialized, that is, they are instantiated when the Spring container is created. 
+  If you want a singleton-scoped component to be lazily created, annotate the component class
+of a singleton-scoped component with @Lazy annotation. 
+@Lazy(value=true) @Component 
+
+You specify implicit bean dependencies using @DependsOn annotation.
+@DependsOn(value = {"beanA", "beanB"}) 
+In the above example listing, @DependsOn annotation on the Sample class instructs the Spring container to create beanA and beanB beans before creating an instance of Sample class. 
+
+If multiple autowiring candidates are available for a dependency, @Primary annotation designates a bean as a primary candidate for autowiring.
+
+@Primary @Component public class Sample { ..... } 
+
+As Spring components are not defined in the application context XML file, Spring’s @Value annotation 
+is used to serve the same purpose as the value attribute of <property> and <constructor-arg> elements. 
+You should note that the @Value annotation can be used at field-level, method-level, method-parameter-level and constructor-argument-level. 
+
+The above example listing shows that the @Value annotation specifies a value that has the syntax #{<spel-expression>}. 
+The SpEL expression specified by @Value annotation is processed by a BeanPostProcessor. 
+The SpEL expressions can make use of <beanName>.<field or property or method> format to obtain its value. 
+For instance, #{configuration.environment} means obtain value of environment property of bean named configuration, 
+and # {configuration.getCountry()} means invoke getCountry method of bean named configuration. 
+
+Spring’s Validator interface is part of Spring Validation API that allows you to perform validation of objects. You can use the Validator interface for performing validation of objects in any of the application layers. 
+For instance, you can use the Validator interface to validate objects in the web layer as well as in the persistence layer. 
+
+The Validator interface defines supports and validate methods. The supports method checks if the supplied object instance (represented by the clazz attribute) can be validated.
+
+Specifying constraints using JSR 303 annotations 
+
+@NotNull, @Min, @Max, @NotBlank and @Size are some of the annotations defined by JSR 303 Bean Validation API.
+ The above example listing shows that by using JSR 303 annotations FixedDepositDetails class clearly specifies the constraints that apply on its fields.
+  On the other hand, if you are using Spring Validation API to validate an object, constraint information is contained in the Validator implementation (refer example listing 6-24). 
+
+Programmatically configuring Spring beans using @Configuration and @Bean annotations 
+You can use @Configuration and @Bean annotations to programmatically configure Spring beans. 
+If you annotate a class with @Configuration annotation, it indicates that the class contains @Bean annotated methods that return bean instances meant 
+to be registered with the Spring container.
+
+@Configuration public class BankAppConfiguration {.....
+@Bean(name = "customerRegistrationService")@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)public CustomerRegistrationService customerRegistrationService() {return new CustomerRegistrationServiceImpl();}
+
+BankAppConfiguration class defines @Bean annotated methods that return bean instances. @Bean’s name attribute specifies the name with which the returned bean instance is registered with the Spring container. @Scope annotation specifies the scope (singleton or prototype) of the returned bean instance.
+It is important to note that @Bean annotated methods may also be annotated with @Lazy, @DependsOn, @Primary and @Scope annotations.
+If you are using an @Configuration annotated class as the source of beans, you need to create an instance of AnnotationConfigApplicationContext class (another implementation of ApplicationContext interface) to represent the Spring container. 
+
+Spring @Bean annotation tells that a method produces a bean to be managed by the Spring container. It is a method-level annotation. 
+During Java configuration (@Configuration), the method is executed and its return value is registered as a bean within a BeanFactory.
+
+Database interaction using Spring
+
+Spring’s JDBC module simplifies interaction with data sources by taking care of lower level details of opening and closing connections, 
+managing transactions, processing exceptions, and so on.
+
+Spring’s JDBC module defines multiple classes that simplify database interaction.
+
+JdbcTemplate class takes care of managing Connection, Statement and ResultSet objects, catching JDBC exceptions and translating them into easily understandable exceptions (like IncorrectResultSetColumnCountException and CannotGetJdbcConnectionException), performing batch operations, and so on. 
+An application developer only needs to provide SQL to the JdbcTemplate class, and extract results after the SQL is executed. 
+
+Spring’s NamedParameterJdbcTemplate is a wrapper around JdbcTemplate instance that allows you to use named parameters in the SQL statement rather than using ? . 
+
+Spring’s ORM module provides integration with Hibernate, Java Persistence API (JPA), MyBatis, and Java Data Objects (JDO).
+
+If you want to use JPA’s EntityManager in your application’s DAOs for database interaction, configure Spring’s LocalContainerEntityManagerFactoryBean instead of org.springframework.orm.hibernate4.LocalSessionFactoryBean. 
+The dataSource property specifies reference to a bean of type javax.sql.DataSource. 
+The packagesToScan property specifies the package(s) under which Spring looks for persistent classes. 
+For instance, the above example listing specifies that if a persistent class is annotated with JPA’s @Entity annotation, 
+and is located inside sample.spring package (or its sub-packages), it is automatically detected by org.springframework.orm.hibernate4. LocalSessionFactoryBean.
+
+Spring Framework supports both programmatic and declarative transaction management. 
+In programmatic transaction management, Spring’s transaction management abstraction is used to explicitly start, end and commit transactions. 
+In declarative transaction management, you annotate methods that execute within a transaction with Spring’s @Transactional annotation. 
+You can programmatically manage transactions by using Spring’s TransactionTemplate class or by using an implementation of Spring’s PlatformTransactionManager interface. 
+TransactionTemplate class simplifies transaction management by taking care of initiating and committing transactions.
+You only need to provide an implementation of Spring’s TransactionCallback interface that contains the code to be executed within a transaction. 
+
+When using PlatformTransactionManager implementation, you are required to explicitly initiate and commit (or roll back) transactions. 
+For this reason, it is recommended to use TransactionTemplate instead of directly using a PlatformTransactionManager implementation. 
+
+On the other hand, declarative transaction management requires you to only annotate methods or classes with Spring’s @Transactional annotation. 
+If you want to execute a method within a transaction, annotate the method with @Transactional annotation. 
+If you want to execute all the methods of a class within a transaction, annotate the class with @Transactional annotation. 
+
+Instead of using @Transactional annotation for declarative transaction management, you can use Spring’s tx schema elements to identify transactional methods. 
+As using Spring’s tx schema results in verbose application context XML file, we’ll be only looking at using @Transactional annotation for declarative transaction management. 
+
+You enable declarative transaction management using <annotation-driven> element of Spring’s tx schema. The following example listing shows the <annotation-driven> element’s usage in ch07-bankapp-jdbc project: 
