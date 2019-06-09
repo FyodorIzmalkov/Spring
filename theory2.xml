@@ -645,3 +645,181 @@ Instead of using @Transactional annotation for declarative transaction managemen
 As using Spring’s tx schema results in verbose application context XML file, we’ll be only looking at using @Transactional annotation for declarative transaction management. 
 
 You enable declarative transaction management using <annotation-driven> element of Spring’s tx schema. The following example listing shows the <annotation-driven> element’s usage in ch07-bankapp-jdbc project: 
+
+
+Creating JDBC Application
+There are following six steps involved in building a JDBC application −
+
+Import the packages: Requires that you include the packages containing the JDBC classes needed for database programming. Most often, using import java.sql.* will suffice.
+
+Register the JDBC driver: Requires that you initialize a driver so you can open a communication channel with the database.
+
+Open a connection: Requires using the DriverManager.getConnection() method to create a Connection object, which represents a physical connection with the database.
+
+Execute a query: Requires using an object of type Statement for building and submitting an SQL statement to the database.
+
+Extract data from result set: Requires that you use the appropriate ResultSet.getXXX() method to retrieve the data from the result set.
+
+Clean up the environment: Requires explicitly closing all database resources versus relying on the JVM's garbage collection.
+
+
+
+JDBC drivers implement the defined interfaces in the JDBC API, for interacting with your database server.
+For example, using JDBC drivers enable you to open database connections and to interact with it by sending SQL or database commands then receiving results with Java.
+
+After you've installed the appropriate driver, it is time to establish a database connection using JDBC.
+
+The programming involved to establish a JDBC connection is fairly simple. Here are these simple four steps −
+
+Import JDBC Packages: Add import statements to your Java program to import required classes in your Java code.
+
+Register JDBC Driver: This step causes the JVM to load the desired driver implementation into memory so it can fulfill your JDBC requests.
+You must register the driver in your program before you use it. 
+Registering the driver is the process by which the Oracle driver's class file is loaded into the memory, so it can be utilized as an implementation of the JDBC interfaces.
+
+The most common approach to register a driver is to use Java's Class.forName() method, 
+to dynamically load the driver's class file into memory, which automatically registers it. 
+This method is preferable because it allows you to make the driver registration configurable and portable.
+
+try {
+   Class.forName("oracle.jdbc.driver.OracleDriver");
+}
+catch(ClassNotFoundException ex) {
+   System.out.println("Error: unable to load driver class!");
+   System.exit(1);
+}
+
+The second approach you can use to register a driver, is to use the static DriverManager.registerDriver() method.
+You should use the registerDriver() method if you are using a non-JDK compliant JVM, such as the one provided by Microsoft.
+
+The following example uses registerDriver() to register the Oracle driver −
+try {
+   Driver myDriver = new oracle.jdbc.driver.OracleDriver();
+   DriverManager.registerDriver( myDriver );
+}
+catch(ClassNotFoundException ex) {
+   System.out.println("Error: unable to load driver class!");
+   System.exit(1);
+}
+
+You need to do this registration only once in your program. You can register a driver in one of two ways.
+
+Database URL Formulation: This is to create a properly formatted address that points to the database to which you wish to connect.
+After you've loaded the driver, you can establish a connection using the DriverManager.getConnection() method. 
+For easy reference, let me list the three overloaded DriverManager.getConnection() methods −
+getConnection(String url)
+getConnection(String url, Properties prop)
+getConnection(String url, String user, String password)
+Here each form requires a database URL. A database URL is an address that points to your database.
+
+RDBMS	JDBC driver name	URL format
+MySQL	com.mysql.jdbc.Driver	jdbc:mysql://hostname/ databaseName
+ORACLE	oracle.jdbc.driver.OracleDriver	jdbc:oracle:thin:@hostname:port Number:databaseName
+DB2	COM.ibm.db2.jdbc.net.DB2Driver	jdbc:db2:hostname:port Number/databaseName
+Sybase	com.sybase.jdbc.SybDriver	jdbc:sybase:Tds:hostname: port Number/databaseName
+
+The most commonly used form of getConnection() requires you to pass a database URL, a username, and a password:
+
+Assuming you are using Oracle's thin driver, you'll specify a host:port:databaseName value for the database portion of the URL.
+
+If you have a host at TCP/IP address 192.0.0.1 with a host name of amrood, and your Oracle listener is configured to listen on port 1521, and your database name is EMP, then complete database URL would be −
+
+jdbc:oracle:thin:@amrood:1521:EMP
+
+Now you have to call getConnection() method with appropriate username and password to get a Connection object as follows −
+
+String URL = "jdbc:oracle:thin:@amrood:1521:EMP";
+String USER = "username";
+String PASS = "password"
+Connection conn = DriverManager.getConnection(URL, USER, PASS);
+
+Using Only a Database URL
+A second form of the DriverManager.getConnection( ) method requires only a database URL −
+
+DriverManager.getConnection(String url);
+However, in this case, the database URL includes the username and password and has the following general form −
+
+jdbc:oracle:driver:username/password@database
+So, the above connection can be created as follows −
+
+String URL = "jdbc:oracle:thin:username/password@amrood:1521:EMP";
+Connection conn = DriverManager.getConnection(URL);
+
+A third form of the DriverManager.getConnection( ) method requires a database URL and a Properties object −
+
+DriverManager.getConnection(String url, Properties info);
+A Properties object holds a set of keyword-value pairs. It is used to pass driver properties to the driver during a call to the getConnection() method.
+
+To make the same connection made by the previous examples, use the following code −
+
+import java.util.*;
+
+String URL = "jdbc:oracle:thin:@amrood:1521:EMP";
+Properties info = new Properties( );
+info.put( "user", "username" );
+info.put( "password", "password" );
+
+Connection conn = DriverManager.getConnection(URL, info);
+
+At the end of your JDBC program, it is required explicitly to close all the connections to the database to end each database session. However, if you forget, Java's garbage collector will close the connection when it cleans up stale objects.
+
+Relying on the garbage collection, especially in database programming, is a very poor programming practice. You should make a habit of always closing the connection with the close() method associated with connection object.
+
+To ensure that a connection is closed, you could provide a 'finally' block in your code. A finally block always executes, regardless of an exception occurs or not.
+
+To close the above opened connection, you should call close() method as follows −
+
+conn.close();
+Explicitly closing a connection conserves DBMS resources, which will make your database administrator happy.
+
+Create Connection Object: Finally, code a call to the DriverManager object's getConnection( ) method to establish actual database connection.
+
+Once a connection is obtained we can interact with the database. The JDBC Statement, CallableStatement, 
+and PreparedStatement interfaces define the methods and properties that enable you to send SQL or PL/SQL commands and receive data from your database.
+
+Statement	Use this for general-purpose access to your database. Useful when you are using static SQL statements at runtime. The Statement interface cannot accept parameters.
+PreparedStatement	Use this when you plan to use the SQL statements many times. The PreparedStatement interface accepts input parameters at runtime.
+CallableStatement	Use this when you want to access the database stored procedures. The CallableStatement interface can also accept runtime input parameters.
+
+Before you can use a Statement object to execute a SQL statement, you need to create one using the Connection object's createStatement( ) method, as in the following example −
+Statement stmt = null;
+try {
+   stmt = conn.createStatement( );
+   . . .
+}
+catch (SQLException e) {
+   . . .
+}
+finally {
+   . . .
+}
+
+Once you've created a Statement object, you can then use it to execute an SQL statement with one of its three execute methods.
+boolean execute (String SQL): Returns a boolean value of true if a ResultSet object can be retrieved; otherwise, it returns false. Use this method to execute SQL DDL statements or when you need to use truly dynamic SQL.int executeUpdate (String SQL): Returns the number of rows affected by the execution of the SQL statement. Use this method to execute SQL statements for which you expect to get a number of rows affected - for example, an INSERT, UPDATE, or DELETE statement.
+ResultSet executeQuery (String SQL): Returns a ResultSet object. Use this method when you expect to get a result set, as you would with a SELECT statement.
+
+A simple call to the close() method will do the job. If you close the Connection object first, it will close the Statement object as well. However, you should always explicitly close the Statement object to ensure proper cleanup.
+
+PreparedStatement pstmt = null;
+try {
+   String SQL = "Update Employees SET age = ? WHERE id = ?";
+   pstmt = conn.prepareStatement(SQL);
+   . . .
+}
+catch (SQLException e) {
+   . . .
+}
+finally {
+   . . .
+}
+All parameters in JDBC are represented by the ? symbol, which is known as the parameter marker. You must supply values for every parameter before executing the SQL statement.
+
+String sql = "UPDATE Employees set age=? WHERE id=?";
+stmt = conn.prepareStatement(sql);
+      
+      //Bind values into the parameters.
+      stmt.setInt(1, 35);  // This would set age
+      stmt.setInt(2, 102); // This would set ID
+      
+      // Let us update age of the record with ID = 102;
+      int rows = stmt.executeUpdate();
