@@ -1,3 +1,5 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Meetings {
@@ -49,8 +51,10 @@ public class Meetings {
                             }
                         }
                     }
-                    tmpList.add(nextLine);
-                    daysMap.put(tmp[1], tmpList);
+                    if (flag != 1) {
+                        tmpList.add(nextLine);
+                        daysMap.put(tmp[1], tmpList);
+                    }
                     if (printed == 0)
                         System.out.println("OK");
                 }
@@ -64,6 +68,32 @@ public class Meetings {
             }
             else
             {
+                Map <Integer, String> map = new HashMap<>();
+                if (daysMap.containsKey(tmp[1])){
+                    List<String> dayTmpList = daysMap.get(tmp[1]);
+                    for (String item: dayTmpList){
+                        String[] currentLine = item.split(" ");
+                        for (String linePart: currentLine){
+                            if (linePart.equals(tmp[2])){
+                                String[] time = currentLine[2].split(":");
+                                Integer key = Integer.parseInt(time[0]) * 60 + Integer.parseInt(time[1]);
+                                String str = "" + currentLine[2] + " " + currentLine[3] + " ";
+                                int numOfPersons = Integer.parseInt(currentLine[4]);
+                                for (int z = 0; z < numOfPersons; z++){
+                                    str += currentLine[5 + z];
+                                    if ( z + 1 != numOfPersons)
+                                        str += " ";
+                                }
+                                map.put(key, str);
+                            }
+                        }
+                    }
+                    TreeMap<Integer, String> sorted = new TreeMap<>();
+                    sorted.putAll(map);
+                    for (Map.Entry<Integer, String> entry: sorted.entrySet()){
+                        System.out.println(entry.getValue());
+                    }
+                }
 
             }
 
