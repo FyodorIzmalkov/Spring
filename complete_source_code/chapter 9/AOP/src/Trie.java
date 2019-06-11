@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Trie {
     private TrieNode root;
@@ -50,6 +51,24 @@ public class Trie {
             return true;
     }
 
+    public int getCharacterNum(String word){
+        int charNum = 0;
+        String prefix = "";
+        for (int i = 0; i < word.length(); i++){
+            prefix += String.valueOf(word.charAt(i));
+            TrieNode node = searchNode(prefix);
+            if (node == null)
+                break;
+            if (node.children.size() == 1 || (node.children.size() == 0 && charNum == 0)){
+                    charNum = i + 1;
+                }
+            else if (node.children.size() > 1 && charNum != 0)
+                charNum = 0;
+        }
+        return charNum;
+    }
+
+
     public TrieNode searchNode(String str){
         Map<Character, TrieNode> children = root.children;
         TrieNode t = null;
@@ -67,7 +86,23 @@ public class Trie {
 
     public static void main(String[] args) {
         Trie trie = new Trie();
-        trie.insert("hello");
-        System.out.println(trie.search("hello"));
+        Scanner scanner = new Scanner(System.in);
+        int numOfWords = Integer.parseInt(scanner.nextLine());
+        String lineWithWords = scanner.nextLine();
+        String[] arrayOfWords = lineWithWords.split(" ");
+        int result = 0;
+        for (String word: arrayOfWords){
+            if (!trie.search(word))
+            {
+                trie.insert(word);
+                result += word.length();
+                continue;
+            }
+            else {
+                result += trie.getCharacterNum(word);
+            }
+
+        }
+        System.out.println(result);
     }
 }
