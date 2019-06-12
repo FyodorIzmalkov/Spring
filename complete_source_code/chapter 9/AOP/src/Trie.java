@@ -54,16 +54,23 @@ public class Trie {
     public int getCharacterNum(String word){
         int charNum = 0;
         String prefix = "";
-        for (int i = 0; i < word.length(); i++){
-            prefix += String.valueOf(word.charAt(i));
-            TrieNode node = searchNode(prefix);
-            if (node == null)
-                break;
-            if (node.children.size() == 1 || (node.children.size() == 0 && charNum == 0)){
+        prefix += String.valueOf(word.charAt(0));
+        TrieNode node = searchNode(prefix);
+        if (node.children.size() == 1)
+            charNum = 1;
+        Map <Character, TrieNode> children = node.children;
+        for (int i = 1; i < word.length(); i++){
+            if (children.containsKey(word.charAt(i))) {
+                node = children.get(word.charAt(i));
+                children = node.children;
+                if (children.size() == 1 && charNum == 0)
                     charNum = i + 1;
-                }
-            else if (node.children.size() > 1 && charNum != 0)
-                charNum = 0;
+                if (children.size() > 1 && (charNum != 0))
+                    charNum = 0;
+                if (children.size() > 1 && i == word.length() - 2)
+                    return word.length();
+                System.out.println("Children size is: " + children.size() + " Index is: " + i + " char is: " + word.charAt(i));
+            }
         }
         return charNum;
     }
@@ -96,10 +103,12 @@ public class Trie {
             {
                 trie.insert(word);
                 result += word.length();
+                System.out.println("If there is no word:" + result);
                 continue;
             }
             else {
                 result += trie.getCharacterNum(word);
+                System.out.println("The len you need to show the only word:" + result);
             }
 
         }
