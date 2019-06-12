@@ -103,14 +103,10 @@ public class Trie {
             {
                 trie.insert(word);
                 result += word.length();
-                System.out.println("If there is no word:" + result);
                 continue;
             }
-            else {
+            else
                 result += trie.getCharacterNum(word);
-                System.out.println("The len you need to show the only word:" + result);
-            }
-
         }
         System.out.println(result);
     }
