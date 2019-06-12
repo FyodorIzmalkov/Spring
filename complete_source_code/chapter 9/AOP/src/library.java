@@ -9,7 +9,7 @@ public class library {
         int dayOfWeek = Integer.parseInt(arr[2]);
         int wantToReadToday = 1;
         int result = 0;
-        while (numOfBooksAtHome >= 0){
+        while (true){
             if (dayOfWeek <= 5)
                 numOfBooksAtHome += dayliLimitOfBooks;
             numOfBooksAtHome -= wantToReadToday;
@@ -24,6 +24,5 @@ public class library {
             result++;
             wantToReadToday++;
         }
-        System.out.println(result);
     }
 }

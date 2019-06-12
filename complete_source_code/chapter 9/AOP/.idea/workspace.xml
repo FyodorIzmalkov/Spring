@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9c5ae95f-7b37-4b83-b2d9-ac27b6d38f78" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ch09-simple-aop/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ch09-simple-aop/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -49,7 +50,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Meetings.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
+            <state relative-caret-position="216">
               <caret line="56" column="21" selection-start-line="56" selection-start-column="21" selection-end-line="56" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -61,7 +62,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Trie.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
+            <state relative-caret-position="-44">
               <caret line="82" column="41" selection-start-line="82" selection-start-column="41" selection-end-line="82" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -76,8 +77,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Graph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="28">
-              <caret line="39" column="30" lean-forward="true" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
+            <state relative-caret-position="-513">
+              <caret line="6" column="31" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -85,11 +86,29 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/library.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="28" column="1" lean-forward="true" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
+            <state relative-caret-position="68">
+              <caret line="4" column="49" lean-forward="true" selection-start-line="4" selection-start-column="49" selection-end-line="4" selection-end-column="49" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Mobilization.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="333">
+              <caret line="56" column="69" selection-start-line="56" selection-start-column="69" selection-end-line="56" selection-end-column="69" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#331#332#0" expanded="true" />
+                <element signature="e#386#387#0" expanded="true" />
+                <element signature="e#752#753#0" expanded="true" />
+                <element signature="e#846#847#0" expanded="true" />
+                <element signature="e#1240#1241#0" expanded="true" />
+                <element signature="e#1280#1281#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -132,6 +151,7 @@
         <option value="$PROJECT_DIR$/src/TrieNode.java" />
         <option value="$PROJECT_DIR$/src/Trie.java" />
         <option value="$PROJECT_DIR$/src/library.java" />
+        <option value="$PROJECT_DIR$/src/Mobilization.java" />
       </list>
     </option>
   </component>
@@ -198,7 +218,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.library">
+  <component name="RunManager" selected="Application.Mobilization">
     <configuration name="Graph" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Graph" />
       <module name="AOP" />
@@ -206,8 +226,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Teams" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Teams" />
+    <configuration name="Mobilization" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Mobilization" />
       <module name="AOP" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -236,11 +256,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.library" />
+        <item itemvalue="Application.Mobilization" />
         <item itemvalue="Application.Trie" />
+        <item itemvalue="Application.library" />
         <item itemvalue="Application.Graph" />
         <item itemvalue="Application.test" />
-        <item itemvalue="Application.Teams" />
       </list>
     </recent_temporary>
   </component>
@@ -257,12 +277,12 @@
       <workItem from="1560172560429" duration="14951000" />
       <workItem from="1560244402967" duration="649000" />
       <workItem from="1560247780838" duration="17207000" />
-      <workItem from="1560334973660" duration="13468000" />
+      <workItem from="1560334973660" duration="23494000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46275000" />
+    <option name="totallyTimeSpent" value="56301000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -361,19 +381,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Trie.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="82" column="41" selection-start-line="82" selection-start-column="41" selection-end-line="82" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#239#260#0" expanded="true" />
-            <element signature="e#361#362#0" expanded="true" />
-            <element signature="e#403#404#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/JDK/jdk-12.jdk/Contents/Home/lib/src.zip!/java.base/java/util/HashMap.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="71">
@@ -387,9 +394,16 @@
     <entry file="file://$PROJECT_DIR$/src/TrieNode.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/library.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="49" lean-forward="true" selection-start-line="4" selection-start-column="49" selection-end-line="4" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Meetings.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
+        <state relative-caret-position="216">
           <caret line="56" column="21" selection-start-line="56" selection-start-column="21" selection-end-line="56" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -399,18 +413,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Graph.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="28">
-          <caret line="39" column="30" lean-forward="true" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
+        <state relative-caret-position="-513">
+          <caret line="6" column="31" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/library.java">
+    <entry file="file://$PROJECT_DIR$/src/Trie.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="1" lean-forward="true" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
+        <state relative-caret-position="-44">
+          <caret line="82" column="41" selection-start-line="82" selection-start-column="41" selection-end-line="82" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#239#260#0" expanded="true" />
+            <element signature="e#361#362#0" expanded="true" />
+            <element signature="e#403#404#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Mobilization.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="333">
+          <caret line="56" column="69" selection-start-line="56" selection-start-column="69" selection-end-line="56" selection-end-column="69" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#331#332#0" expanded="true" />
+            <element signature="e#386#387#0" expanded="true" />
+            <element signature="e#752#753#0" expanded="true" />
+            <element signature="e#846#847#0" expanded="true" />
+            <element signature="e#1240#1241#0" expanded="true" />
+            <element signature="e#1280#1281#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
