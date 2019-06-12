@@ -5,6 +5,18 @@ import java.util.Scanner;
 public class Trie {
     private TrieNode root;
 
+    class TrieNode {
+        char c;
+        HashMap<Character, TrieNode> children = new HashMap<Character, TrieNode>();
+        boolean isLeaf;
+
+        public TrieNode(){}
+
+        public TrieNode(char c){
+            this.c = c;
+        }
+    }
+
     public Trie(){
         root = new TrieNode();
     }
@@ -69,7 +81,6 @@ public class Trie {
                     charNum = 0;
                 if (children.size() > 1 && i == word.length() - 2)
                     return word.length();
-                System.out.println("Children size is: " + children.size() + " Index is: " + i + " char is: " + word.charAt(i));
             }
         }
         return charNum;
@@ -92,6 +103,7 @@ public class Trie {
     }
 
     public static void main(String[] args) {
+
         Trie trie = new Trie();
         Scanner scanner = new Scanner(System.in);
         int numOfWords = Integer.parseInt(scanner.nextLine());
