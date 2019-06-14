@@ -2,7 +2,75 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Spring.iml" filepath="$PROJECT_DIR$/.idea/Spring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 7/demojdbc/.mvn/.mvn.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 7/demojdbc/.mvn/.mvn.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/demo/.mvn/.mvn1.iml" filepath="$PROJECT_DIR$/complete_source_code/demo/.mvn/.mvn1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 9/AOP/AOP.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 9/AOP/AOP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HelloWorld/HelloWorld.iml" filepath="$PROJECT_DIR$/HelloWorld/HelloWorld.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 4/ch04-bankapp-autowiring/src/main/main.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 4/ch04-bankapp-autowiring/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 6/ch06-spel-example/src/main/main1.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 6/ch06-spel-example/src/main/main1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 7/ch07-bankapp-jdbc/src/main/main10.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 7/ch07-bankapp-jdbc/src/main/main10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 4/ch04-bankapp-dependencies/src/main/main11.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 4/ch04-bankapp-dependencies/src/main/main11.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 13/ch13-async-webservice/src/main/main12.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 13/ch13-async-webservice/src/main/main12.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 4/ch04-bankapp-replaced-method/src/main/main13.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 4/ch04-bankapp-replaced-method/src/main/main13.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 5/ch05-bankapp-jsr250/src/main/main14.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 5/ch05-bankapp-jsr250/src/main/main14.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 13/ch13-servlet3-file-upload/src/main/main15.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 13/ch13-servlet3-file-upload/src/main/main15.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 9/ch09-aop-xml-schema/src/main/main16.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 9/ch09-aop-xml-schema/src/main/main16.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 1/ch01-bankapp-xml/src/main/main17.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 1/ch01-bankapp-xml/src/main/main17.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 5/ch05-bankapp-beanfactorypostprocessor/src/main/main18.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 5/ch05-bankapp-beanfactorypostprocessor/src/main/main18.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 10/ch10-annotation-helloworld/src/main/main19.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 10/ch10-annotation-helloworld/src/main/main19.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 2/ch02-bankapp-scopes/src/main/main2.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 2/ch02-bankapp-scopes/src/main/main2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 9/ch09-simple-aop/src/main/main20.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 9/ch09-simple-aop/src/main/main20.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 4/ch04-bankapp-lookup-method/src/main/main21.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 4/ch04-bankapp-lookup-method/src/main/main21.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 6/ch06-value-annotation/src/main/main22.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 6/ch06-value-annotation/src/main/main22.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 9/ch09-aop-pointcuts/src/main/main23.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 9/ch09-aop-pointcuts/src/main/main23.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 9/ch09-aop-advices/src/main/main24.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 9/ch09-aop-advices/src/main/main24.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 5/ch05-propertyOverrideConfigurer-example/src/main/main25.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 5/ch05-propertyOverrideConfigurer-example/src/main/main25.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 10/ch10-bankapp/src/main/main26.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 10/ch10-bankapp/src/main/main26.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 11/ch11-data-binding/src/main/main27.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 11/ch11-data-binding/src/main/main27.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 12/ch12-webservice/src/main/main28.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 12/ch12-webservice/src/main/main28.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 12/ch12-webservice-uritemplates/src/main/main29.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 12/ch12-webservice-uritemplates/src/main/main29.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 3/ch03-bankapp-inheritance-examples/src/main/main3.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 3/ch03-bankapp-inheritance-examples/src/main/main3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 4/ch04-bankapp-context-aware/src/main/main30.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 4/ch04-bankapp-context-aware/src/main/main30.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 12/ch12-webservice-client/src/main/main31.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 12/ch12-webservice-client/src/main/main31.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 3/ch03-bankapp-constructor-args-by-type/src/main/main32.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 3/ch03-bankapp-constructor-args-by-type/src/main/main32.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 13/ch13-async-bankapp/src/main/main33.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 13/ch13-async-bankapp/src/main/main33.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 14/ch14-bankapp-simple-security/src/main/main34.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 14/ch14-bankapp-simple-security/src/main/main34.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 5/ch05-localoverride-example/src/main/main35.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 5/ch05-localoverride-example/src/main/main35.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 3/ch03-namespaces-example/src/main/main36.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 3/ch03-namespaces-example/src/main/main36.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 6/ch06-jsr303-validation/src/main/main37.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 6/ch06-jsr303-validation/src/main/main37.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 5/ch05-bankapp-beanpostprocessor/src/main/main38.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 5/ch05-bankapp-beanpostprocessor/src/main/main38.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 11/ch11-bankapp/src/main/main39.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 11/ch11-bankapp/src/main/main39.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 5/ch05-propertySourcesPlaceholderConfigurer-example/src/main/main4.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 5/ch05-propertySourcesPlaceholderConfigurer-example/src/main/main4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 7/demojdbc/src/main/main40.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 7/demojdbc/src/main/main40.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 9/ch09-aop-proxy/src/main/main41.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 9/ch09-aop-proxy/src/main/main41.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 10/ch10-helloworld/src/main/main42.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 10/ch10-helloworld/src/main/main42.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 11/ch11-jsr303-validation/src/main/main43.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 11/ch11-jsr303-validation/src/main/main43.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 11/ch11-session-attributes/src/main/main44.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 11/ch11-session-attributes/src/main/main44.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 7/ch07-bankapp-tx-jdbc/src/main/main45.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 7/ch07-bankapp-tx-jdbc/src/main/main45.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 6/ch06-validator-interface/src/main/main46.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 6/ch06-validator-interface/src/main/main46.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/demo/src/main/main47.iml" filepath="$PROJECT_DIR$/complete_source_code/demo/src/main/main47.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 7/ch07-bankapp-hibernate/src/main/main48.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 7/ch07-bankapp-hibernate/src/main/main48.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 3/ch03-simple-types-examples/src/main/main49.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 3/ch03-simple-types-examples/src/main/main49.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 13/ch13-bankapp/src/main/main5.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 13/ch13-bankapp/src/main/main5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 12/ch12-webservice-client-uritemplates/src/main/main50.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 12/ch12-webservice-client-uritemplates/src/main/main50.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 5/ch05-bankapp-customization/src/main/main51.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 5/ch05-bankapp-customization/src/main/main51.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 6/ch06-bankapp-jsr330/src/main/main52.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 6/ch06-bankapp-jsr330/src/main/main52.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 6/ch06-bankapp-configuration/src/main/main53.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 6/ch06-bankapp-configuration/src/main/main53.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 13/ch13-async-webservice-client/src/main/main54.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 13/ch13-async-webservice-client/src/main/main54.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 3/ch03-util-schema-examples/src/main/main55.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 3/ch03-util-schema-examples/src/main/main55.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 3/ch03-bankapp-factorybean/src/main/main56.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 3/ch03-bankapp-factorybean/src/main/main56.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 14/ch14-bankapp-db-security/src/main/main57.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 14/ch14-bankapp-db-security/src/main/main57.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 3/ch03-bankapp-inheritance/src/main/main58.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 3/ch03-bankapp-inheritance/src/main/main58.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 8/ch08-bankapp/src/main/main59.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 8/ch08-bankapp/src/main/main59.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 13/ch13-commons-file-upload/src/main/main6.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 13/ch13-commons-file-upload/src/main/main6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 6/ch06-bankapp-annotations/src/main/main60.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 6/ch06-bankapp-annotations/src/main/main60.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 5/ch05-property-placeholder-element-example/src/main/main61.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 5/ch05-property-placeholder-element-example/src/main/main61.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 3/ch03-bankapp-constructor-args-by-name/src/main/main7.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 3/ch03-bankapp-constructor-args-by-name/src/main/main7.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 2/ch02-bankapp-interfaces/src/main/main8.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 2/ch02-bankapp-interfaces/src/main/main8.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 13/ch13-converter-formatter-bankapp/src/main/main9.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 13/ch13-converter-formatter-bankapp/src/main/main9.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 2/ch02-bankapp-scopes/src/test/test.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 2/ch02-bankapp-scopes/src/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/demo/src/test/test1.iml" filepath="$PROJECT_DIR$/complete_source_code/demo/src/test/test1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/complete_source_code/chapter 7/demojdbc/src/test/test2.iml" filepath="$PROJECT_DIR$/complete_source_code/chapter 7/demojdbc/src/test/test2.iml" />
     </modules>
   </component>
 </project>
